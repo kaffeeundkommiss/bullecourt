@@ -130,7 +130,7 @@ ol.srcs li:target { background: var(--red-soft); outline: 6px solid var(--red-so
 @media (max-width: 560px) { .tbl { font-size: 14px } .tbl th, .tbl td { padding: 7px 6px } }
 
 /* Panzerfoto quer neben dem Text */
-.evintro:has(.pzfoto) { grid-template-columns: minmax(0, 1fr) minmax(240px, 360px) }
+@media (min-width: 721px) { .evintro:has(.pzfoto) { grid-template-columns: minmax(0, 1fr) minmax(240px, 360px) } }
 @media (max-width: 720px) { figure.evfoto.pzfoto { max-width: 100% } }
 
 /* Karte */
