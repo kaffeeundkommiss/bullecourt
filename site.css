@@ -1,0 +1,73 @@
+/* Gemeinsame Bausteine aller Seiten: Begriffserklärungen, Kontextzeile, einklappbare Belege.
+   Nutzt die Farb- und Schrift-Variablen der jeweiligen Seite (--ink, --muted, --panel, --rule, --border, --red, --f-*). */
+
+/* Antippbare Begriffe */
+button.gl { all: unset; cursor: help; color: inherit; font: inherit; text-decoration: underline dotted; text-decoration-thickness: 1.5px;
+  text-underline-offset: 3px; text-decoration-color: var(--muted); border-radius: 2px }
+button.gl:hover { text-decoration-color: var(--red) }
+button.gl:focus-visible { outline: 2px solid var(--red); outline-offset: 2px }
+button.gl[aria-expanded="true"] { background: var(--red-soft, rgba(173,40,29,.14)) }
+.glpop { position: absolute; z-index: 50; max-width: min(340px, calc(100vw - 32px)); background: var(--panel); color: var(--ink);
+  border: 1px solid var(--border); border-left: 4px solid var(--red); border-radius: 3px; padding: 10px 12px 10px;
+  box-shadow: 0 6px 22px rgba(0,0,0,.18); font: 400 15px/1.45 var(--f-body); display: grid; gap: 6px }
+.glpop b { font: 700 16px/1.15 var(--f-display); letter-spacing: .03em; text-transform: uppercase }
+.glpop p { margin: 0 }
+.glpop .glmore { font-size: 13.5px; color: var(--muted) } .glpop .glmore a { color: var(--ink) }
+.glpop .glx { all: unset; position: absolute; right: 6px; top: 4px; width: 28px; height: 28px; text-align: center; line-height: 28px; cursor: pointer; color: var(--muted); font-size: 18px }
+.glpop .glx:focus-visible { outline: 2px solid var(--red) }
+
+/* Kontextzeile unter der Navigation (Seiten ohne Einführungskasten) */
+.ctx { margin: 0; font-size: 14px; color: var(--muted) }
+.ctx a { color: var(--ink) }
+
+/* Einklappbare Belege in Ablaufkarten und Zahlenkästen */
+details.belege { margin-top: 2px }
+details.belege > summary { list-style: none; cursor: pointer; display: flex; flex-wrap: wrap; align-items: center; gap: 6px; min-height: 32px;
+  font: 600 12.5px/1 var(--f-display); letter-spacing: .08em; text-transform: uppercase; color: var(--muted) }
+details.belege > summary::-webkit-details-marker { display: none }
+details.belege > summary::before { content: "▸"; font-size: 12px; width: 10px; transition: transform .15s }
+details.belege[open] > summary::before { transform: rotate(90deg) }
+details.belege > summary .b { font-size: 10.5px; padding: 3px 5px 2px }
+details.belege > summary:hover { color: var(--ink) }
+details.belege > summary:focus-visible { outline: 2px solid var(--red); outline-offset: 2px }
+details.belege > .belin { display: grid; gap: 6px; padding: 6px 0 2px 16px; border-left: 2px solid var(--rule); margin-top: 4px }
+.beltoggle { all: unset; cursor: pointer; justify-self: start; font: 600 13px/1 var(--f-display); letter-spacing: .08em; text-transform: uppercase;
+  border: 1px solid var(--border); border-radius: 2px; padding: 9px 11px 8px; background: var(--panel); color: var(--ink) }
+.beltoggle:focus-visible { outline: 2px solid var(--red); outline-offset: 2px }
+.belhead { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px }
+
+/* Legende des Belegstatus als aufklappbare Zeile */
+details.statuslegend > summary { list-style: none; cursor: pointer; font: 600 14px/1.2 var(--f-display); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); min-height: 32px; display: flex; align-items: center; gap: 8px }
+details.statuslegend > summary::-webkit-details-marker { display: none }
+details.statuslegend > summary::before { content: "▸"; font-size: 12px; width: 10px; transition: transform .15s }
+details.statuslegend[open] > summary::before { transform: rotate(90deg) }
+details.statuslegend > summary:focus-visible { outline: 2px solid var(--red); outline-offset: 2px }
+details.statuslegend[open] > summary { margin-bottom: 10px }
+details.statuslegend > *:not(summary) + * { margin-top: 10px }
+
+/* Schaltfläche „Quellen“ am Seitenende und Rückweg auf den Quellenseiten */
+.qnav { margin: 8px 0 0 }
+a.qbtn { display: inline-flex; align-items: center; min-height: 44px; box-sizing: border-box; padding: 0 18px;
+  font: 600 14px/1 var(--f-display); letter-spacing: .08em; text-transform: uppercase; text-decoration: none;
+  color: var(--paper, #fff); background: var(--ink); border: 1px solid var(--ink); border-radius: 2px }
+a.qbtn:hover { background: var(--red); border-color: var(--red) }
+a.qbtn:focus-visible { outline: 2px solid var(--red); outline-offset: 2px }
+/* Quellenseiten: aktueller Bereich in der Navigation */
+nav.pages a[aria-current="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
+nav.sub a[aria-current="true"] { color: var(--ink); border-bottom-color: var(--red) }
+header .lede a { color: var(--ink) }
+
+/* Ereignisseiten: Porträtfoto rechts neben Überschrift und Einleitung, auf schmalen Bildschirmen darunter */
+.evintro { display: grid; grid-template-columns: minmax(0, 1fr) 200px; gap: 10px 28px; align-items: start }
+.evintro > .evtext { display: grid; gap: 10px; min-width: 0 }
+figure.evfoto { margin: 8px 0 0; display: grid; gap: 6px }
+figure.evfoto img { display: block; width: 100%; height: auto; border: 1px solid var(--rule); border-radius: 2px; background: var(--panel) }
+figure.evfoto figcaption { font-size: 13px; line-height: 1.4; color: var(--muted) }
+figure.evfoto figcaption a { color: var(--ink) }
+@media (max-width: 720px) {
+  .evintro { grid-template-columns: minmax(0, 1fr) }
+  figure.evfoto { margin-top: 4px; max-width: 180px }
+}
+
+
+
