@@ -15,7 +15,7 @@ def b(kind):
 def meta(kind, *ids, text=""):
     return f'<div class="meta">{b(kind)}{text}{q(*ids)}</div>'
 
-NAV = [("index.html", "Schlachten"), ("panzer.html", "Panzer"), ("grabungen.html", "Grabungen")]
+NAV = [("index.html", "Schlachten"), ("karte.html", "Karte"), ("panzer.html", "Panzer"), ("grabungen.html", "Grabungen")]
 
 def page(fn, title, desc, eyebrow, h1, body, current):
     nav = "\n".join(
@@ -224,13 +224,17 @@ trs = "\n".join(f'        <tr class="{c}"><td>{s}</td><td class="num">{n}</td><t
 
 tech = f"""  <section class="sect" aria-labelledby="tH">
     <h2 id="tH">Die Fahrzeuge</h2>
-    <div class="prose">
+    <div class="evintro"><div class="evtext prose">
       <p>Eingesetzt wurde die 11. Kompanie des D-Bataillons der Heavy Branch, Machine Gun Corps, unter Major William H. L. Watson. Die neuen Mark IV waren noch nicht verfügbar. Die Kompanie fuhr ältere Mark I und Mark II; die Mark II waren als Ausbildungsfahrzeuge gebaut.</p>
       {meta("ok", 1, 2, text="Kompanie und Führer: ")}
       {meta("wid", 1, 6, 7, 15, text="Typ: Mark I und II (Q1, Q6) oder nur Mark II (Q7, Q15): ")}
       <p>Ein Mark II wog rund 28 Tonnen und fuhr höchstens 4 Meilen, rund 6 km/h. Die Besatzungen saßen nach Brown und Brooks in 35 bis 37 Stunden 14 bis 16 Stunden im Fahrzeug, mit Kohlenmonoxid und Hitze.</p>
       {meta("one", 7, text="Gewicht, Tempo: ")}{meta("one", 1, text="Belastung der Besatzung: ")}
     </div>
+    <figure class="evfoto pzfoto">
+      <img src="bilder/panzer-799-1917.jpg" width="625" height="389" alt="Erbeuteter britischer Panzer mit seitlicher Kanone auf einem Acker, davor ein deutscher Offizier mit Stock, rechts weitere Soldaten" decoding="async">
+      <figcaption>Vom Grenadier-Regiment 123 erbeuteter britischer Mark II bei Bullecourt, laut handschriftlicher Notiz am 11.04.1917 aufgenommen. Wahrscheinlich Panzer 799. Foto: unbekannt, Bundesarchiv, Bild 146-1984-059-07A / CC-BY-SA 3.0, zugeschnitten. <a href="quellen.html#f1">Bildnachweis</a></figcaption>
+    </figure></div>
   </section>
 """
 
@@ -312,6 +316,94 @@ gr = f"""  <section class="sect">
 page("grabungen.html", "Bullecourt 1917: Grabungen", "Breaking Ground Heritage und Operation Nightingale: Veteranen graben 2017 bis 2019 bei Bullecourt nach Panzer 796.",
      "Bullecourt · 2017 – 2019", "Grabungen nach Panzer 796", gr, "grabungen.html")
 
+# ---------- karte.html ----------
+SVG = (ROOT / "werkzeuge" / "karte-grund.svg").read_text(encoding="utf-8")
+SCHRITTE = [
+    ("1", "März 1917", "Die Stellung",
+     "Die Hindenburglinie (deutsch: Siegfriedstellung) bildet bei Bullecourt einen vorspringenden Bogen zwischen Riencourt und Quéant. Vorn liegen zwei Grabenlinien mit breitem Drahthindernis, dahinter eine Artillerie-Schutzstellung. Verteidiger ist die 27. (württembergische) Division mit drei Regimentern.",
+     [meta("ok", 3, 13, text="Linie und Verteidiger: "), meta("one", 17, text="Lage der Gräben und Regimenter: ")]),
+    ("2", "10.04.1917", "Angriff abgesagt",
+     "Die Panzer kommen im Schneetreiben nicht rechtzeitig nach vorn. Der Angriff wird kurzfristig abgesagt; die australischen Bataillone ziehen sich zurück.",
+     [meta("ok", 1, 4, 6)]),
+    ("3", "11.04.1917, 04:30", "Panzer und Infanterie",
+     "Elf Panzer der 11. Kompanie gehen in drei Sektionen vor, mehrere verspätet. Dahinter greift die 4. australische Division an. Weil Geschütze und Munition fehlen, sollen die Panzer den Draht öffnen. Die Schilder Links, Mitte, Rechts zeigen, welche Panzer zu welcher Sektion gehörten.",
+     [meta("ok", 1, 6, 13, text="Nullstunde und Ablauf: "), meta("ok", 4, 1, text="Auftrag der Panzer: "), meta("part", 1, 2, text="Sektionen: ")]),
+    ("4", "11.04.1917, vormittags", "Einbruch und Gegenstöße",
+     "Die Australier dringen beiderseits der Kapelle in die ersten beiden Gräben ein (rot hervorgehoben). Die Panzer sind bis etwa 7 Uhr größtenteils ausgeschaltet. Ohne Nachschub und Artillerie werden die Australier durch Gegenstöße aus Riencourt, Bullecourt und von der Sanssouci-Mühle zurückgedrängt.",
+     [meta("ok", 1, 3, 4, text="Verlauf: "), meta("one", 17, text="Einbruchsabschnitt und Richtung der Gegenstöße: ")]),
+    ("5", "03.–17.05.1917", "Zweiter Angriff",
+     "Die 2. australische Division greift über dasselbe Gelände an, diesmal mit Artillerie und ohne Panzer. Links von ihr greift die britische 62. Division mit acht Panzern Bullecourt an. Für den Mai liegt keine eingepasste Karte vor; die Karte zeigt deshalb nur die Stellung.",
+     [meta("ok", 3, 4, 5, text="Angriff: "), meta("one", 3, text="keine Panzer bei den Australiern: "), meta("one", 14, text="acht Panzer bei der 62. Division: ")]),
+]
+knopf = "\n".join(f'      <button type="button" data-step="{n}"{" aria-pressed=\"true\"" if n == "1" else " aria-pressed=\"false\""}><span class="d">{d}</span><span class="t">{t}</span></button>' for n, d, t, _, _ in SCHRITTE)
+texte = "\n".join(f'      <div class="ktext" data-text="{n}"{"" if n == "1" else " hidden"}>\n        <h3><span class="d">{d}</span>{t}</h3>\n        <p>{x}</p>\n        {"".join(m)}\n      </div>' for n, d, t, x, m in SCHRITTE)
+def sekt(name):
+    li = "".join(f'<li class="{c}"><span class="nr">{n}</span> {tx}</li>' for sk, n, k_, tx, c in rows if sk == name)
+    return li
+sektionen = "\n".join(f'      <div class="ktext ksek" data-sektext="{k_}" hidden>\n        <h3><span class="d">Sektion {nm}</span>Vier Panzer</h3>\n        <ul class="pzl">{sekt(nm)}</ul>\n        {meta("part", 1, 2)}\n        <p class="why">Die Pfeile zeigen nur die Richtung der Sektion, nicht die Wege einzelner Panzer. Mehr auf der Seite <a href="panzer.html#pH">Panzer</a>.</p>\n        <p><button type="button" class="zur">Zurück zum Ablauf</button></p>\n      </div>' for k_, nm in (("links", "Links"), ("mitte", "Mitte"), ("rechts", "Rechts")))
+karte = f"""  <section class="sect">
+    <p class="lede">Die Karte zeigt das Gefechtsfeld des ersten Angriffs am 11. April 1917: deutsche Gräben, die Angriffsrichtung der Panzer und der australischen Infanterie und die deutschen Gegenstöße. Wähle einen Zeitpunkt; im dritten und vierten Schritt öffnen die Schilder Links, Mitte und Rechts die Panzer der jeweiligen Sektion.</p>
+  </section>
+  <section class="sect" aria-labelledby="kH">
+    <h2 id="kH">Ablauf auf der Karte</h2>
+    <div class="ksteps" role="group" aria-label="Zeitpunkt wählen">
+{knopf}
+    </div>
+    <div class="kwrap" data-s="1">
+      <figure class="kfig">
+{SVG}
+        <figcaption class="kleg">
+          <span><i class="l og1"></i>Erster Graben</span><span><i class="l og2"></i>Zweiter Graben</span><span><i class="l art"></i>Artillerie-Schutzstellung</span>
+          <span><i class="l ang"></i>Angriff (Panzer, Infanterie)</span><span><i class="l geg"></i>Deutscher Gegenstoß</span><span><i class="l hl"></i>Höhenlinie, 5 m</span>
+        </figcaption>
+      </figure>
+      <div class="kpanel" aria-live="polite">
+{texte}
+{sektionen}
+      </div>
+    </div>
+  </section>
+  <section class="sect" aria-labelledby="gkH">
+    <h2 id="gkH">Wie die Karte entstand</h2>
+    <ul class="prose">
+      <li>Gräben, Regimenter, Angriffspfeile und Gegenstöße sind aus der deutschen Karte „Schlacht am 11.4.“ bei Moser (1927) übertragen ({q(17)}). Sie zeigt die Sicht der Verteidiger.</li>
+      <li>Die alte Karte wurde über sieben Ortslagen auf heutige Gemeindegrenzen eingepasst. Die Abweichung beträgt 130 bis 780 m; die Linien sind daher nur auf einige hundert Meter genau.</li>
+      <li>Welche Panzersektion zu welchem Angriffspfeil gehört, ist schematisch nach den Zielen in {q(1, 2)} zugeordnet.</li>
+      <li>Grundlage: Höhenmodell AWS Terrain Tiles (Mapzen, u. a. aus SRTM), Gemeindegrenzen france-geojson nach IGN. Ortspunkte zeigen die Mitte der heutigen Gemeinde, nicht den Dorfkern von 1917.</li>
+    </ul>
+  </section>
+<script>
+(function () {{
+  var wrap = document.querySelector('.kwrap');
+  var steps = document.querySelectorAll('.ksteps button');
+  var texts = document.querySelectorAll('.kpanel .ktext');
+  var cur = '1';
+  function show(sel) {{ texts.forEach(function (t) {{ t.hidden = !t.matches(sel); }}); }}
+  function setStep(n) {{
+    cur = n; wrap.dataset.s = n; wrap.removeAttribute('data-sek');
+    steps.forEach(function (b) {{ b.setAttribute('aria-pressed', b.dataset.step === n ? 'true' : 'false'); }});
+    document.querySelectorAll('.karte-svg [data-s]').forEach(function (el) {{
+      el.classList.toggle('an', el.getAttribute('data-s').split(' ').indexOf(n) >= 0);
+    }});
+    show('[data-text="' + n + '"]');
+  }}
+  function setSek(k) {{
+    if (wrap.dataset.sek === k) {{ setStep(cur); return; }}
+    wrap.dataset.sek = k; show('[data-sektext="' + k + '"]');
+  }}
+  steps.forEach(function (b) {{ b.addEventListener('click', function () {{ setStep(b.dataset.step); }}); }});
+  document.querySelectorAll('.karte-svg .sek').forEach(function (g) {{
+    g.addEventListener('click', function () {{ setSek(g.dataset.sek); }});
+    g.addEventListener('keydown', function (e) {{ if (e.key === 'Enter' || e.key === ' ') {{ e.preventDefault(); setSek(g.dataset.sek); }} }});
+  }});
+  document.querySelectorAll('.kpanel .zur').forEach(function (b) {{ b.addEventListener('click', function () {{ setStep(cur); }}); }});
+  setStep('1');
+}})();
+</script>
+"""
+page("karte.html", "Bullecourt 1917: Karte", "Interaktive Karte des Angriffs auf Bullecourt am 11. April 1917: Hindenburglinie, Panzersektionen, Einbruch und deutsche Gegenstöße.",
+     "Bullecourt · 11. April 1917", "Das Gefechtsfeld", karte, "karte.html")
+
 # ---------- quellen.html ----------
 SRC = [
     (1, 'David Brown, Brenton J. Brooks: „The actions of the tanks at the Battle of Bullecourt, 11 April 1917“. British Journal for Military History 9/1 (März 2023), S. 109–137. DOI 10.25602/GOLD.bjmh.v9i1.1690.', "https://bjmh.gold.ac.uk/index.php/bjmh/article/view/1690", "Fachaufsatz. Wertet Kriegstagebuch, Watson, Bean und Luftbilder aus."),
@@ -330,6 +422,7 @@ SRC = [
     (14, "Landships: „12 Company, 3 May 1917“. Ohne Autor und Datum.", "https://sites.google.com/site/landships/home/narratives/1917/arras-narratives/12company3may1917", "Kompilation, in sich teils widersprüchlich."),
     (15, "Australian War Memorial, Sammlung: REL47914 (Plattenfragment), REL47917 (Antriebsrad), REL47918 (Leitrad) eines Mark II aus Bullecourt.", "https://www.awm.gov.au/collection/C2086141", "Gleiche Institution wie Q3 und Q4."),
     (16, "Revitalising Redesdale: Ankündigung des Vortrags „Bullecourt – the search for tanks“ von Alex Sotheran (MoD). 28.01.2021.", "https://www.revitalisingredesdale.org.uk/online-archaeology-talk-video-bullecourt-the-search-for-tanks/", "MoD-Archäologe wie Osgood (Q7)."),
+    (17, "Georg von Moser: Die Württemberger im Weltkrieg. Stuttgart 1927, S. 76, Karte „27. I.D. 6.4.–5.5.17 bei Bullecourt. Schlacht am 11.4.“ (Scan auf Wikimedia Commons, gemeinfrei).", "https://commons.wikimedia.org/wiki/File:27._(w%C3%BCrtt.)_Inf.Div._11.4.1917.jpg", "Deutsche Darstellung der Verteidiger. Grundlage der Stellungen auf der Karte."),
 ]
 def dep(d):
     return '<br><span class="dep">' + d + '</span>' if d else ''
@@ -339,6 +432,13 @@ qb = f"""  <section class="sect" aria-labelledby="qH">
     <p class="hint">Alle Quellen am 11.11.2026 abgerufen. Darunter jeweils Abhängigkeiten, die beim Belegstatus berücksichtigt sind.</p>
     <ol class="srcs">
 {lis}
+    </ol>
+  </section>
+  <section class="sect" aria-labelledby="fH">
+    <h2 id="fH">Bildnachweis</h2>
+    <p class="hint">Bildangaben am 11.11.2026 bei Wikimedia Commons abgerufen.</p>
+    <ol class="srcs">
+      <li id="f1"><span class="id">F1</span><span>Erbeuteter britischer Panzer Mark II bei Bullecourt, laut handschriftlicher Notiz auf dem Abzug am 11.04.1917 aufgenommen, als Feldpostkarte verwendet (Stempel 9. Mai 1917). Foto: unbekannt. Bundesarchiv, Bild 146-1984-059-07A / CC-BY-SA 3.0 (Lizenz CC BY-SA 3.0 DE). Vorlage: Wikimedia Commons, <a href="https://commons.wikimedia.org/wiki/File:Bundesarchiv_Bild_146-1984-059-07A,_Bullecourt,_erbeuteter_britischer_Panzer.jpg">File:Bundesarchiv Bild 146-1984-059-07A</a>. <span class="dep">Die Zuordnung zu Panzer 799 stammt aus der Commons-Beschreibung, nicht aus dem Archivtitel; sie passt zu Q1 (799 von Leutnant Schabel, Grenadier-Regiment 123, gestoppt). Hier zugeschnitten (Archivleiste entfernt) und verkleinert auf 625 × 389 Pixel, weitergegeben unter CC BY-SA 3.0 DE.</span></span></li>
     </ol>
   </section>
   <section class="sect" aria-labelledby="nH">
