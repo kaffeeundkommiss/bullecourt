@@ -128,3 +128,89 @@ ol.srcs li:target { background: var(--red-soft); outline: 6px solid var(--red-so
 .meta a { margin-right: 2px }
 .lede a { color: var(--ink) }
 @media (max-width: 560px) { .tbl { font-size: 14px } .tbl th, .tbl td { padding: 7px 6px } }
+
+/* Panzerfoto quer neben dem Text */
+.evintro:has(.pzfoto) { grid-template-columns: minmax(0, 1fr) minmax(240px, 360px) }
+@media (max-width: 720px) { figure.evfoto.pzfoto { max-width: 100% } }
+
+/* Karte */
+.ksteps { display: flex; flex-wrap: wrap; gap: 6px }
+.ksteps button { font: 500 13px/1.25 "IBM Plex Sans", system-ui, sans-serif; text-align: left; display: grid; gap: 2px; padding: 7px 10px; border: 1px solid var(--rule); border-radius: 3px; background: var(--panel); color: var(--ink); cursor: pointer }
+.ksteps button .d { font: 500 11.5px/1.2 var(--f-mono); color: var(--muted) }
+.ksteps button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
+.ksteps button[aria-pressed="true"] .d, .ksteps button[aria-pressed="true"] .t { color: var(--paper) }
+.ksteps button .t { font-weight: 600 }
+.kwrap { display: grid; grid-template-columns: minmax(0, 1fr) 320px; gap: 14px 22px; align-items: start; margin-top: 12px }
+.kfig { margin: 0; display: grid; gap: 8px; min-width: 0 }
+.kpanel { display: grid; gap: 10px; position: sticky; top: 12px }
+.ktext { display: grid; gap: 8px; background: var(--panel); border: 1px solid var(--rule); border-left: 4px solid var(--ally); border-radius: 3px; padding: 12px 14px }
+.ktext[hidden] { display: none }
+.ktext h3 { margin: 0; font: 600 20px/1.15 var(--f-display); display: grid; gap: 3px }
+.ktext h3 .d { font: 500 12px/1.2 var(--f-mono); color: var(--muted); letter-spacing: .02em }
+.ktext p { margin: 0; font-size: 15px; line-height: 1.45 }
+.ksek { border-left-color: var(--red) }
+.pzl { margin: 0; padding: 0; list-style: none; display: grid; gap: 6px; font-size: 14.5px; line-height: 1.35 }
+.pzl li { padding-left: 8px; box-shadow: inset 3px 0 0 var(--red) }
+.pzl li.back { box-shadow: inset 3px 0 0 var(--j6) }
+.pzl .nr { font: 600 13px/1 var(--f-mono) }
+.zur { font: 500 13px/1 "IBM Plex Sans", system-ui, sans-serif; padding: 6px 10px; border: 1px solid var(--rule); border-radius: 3px; background: transparent; color: var(--ink); cursor: pointer }
+
+.karte-svg { display: block; width: 100%; height: auto; border: 1px solid var(--rule); border-radius: 2px; --k-grund: #ece6d6; --k-hl: #b9ab88; --k-gem: #8f8670; --k-ort: #3a3628; --k-de: #23211c; --k-ang: #2a5d91; --k-geg: #ad281d }
+.karte-svg .grund { fill: var(--k-grund) }
+.karte-svg .hl-minor, .karte-svg .hl-major { fill: none; stroke: var(--k-hl); stroke-width: .6 }
+.karte-svg .hl-major { stroke-width: 1.2 }
+.karte-svg .gemeinde { fill: none; stroke: var(--k-gem); stroke-width: .8; stroke-dasharray: 5 3; opacity: .55 }
+.karte-svg .ort circle { fill: var(--k-ort); opacity: .18 }
+.karte-svg text { font-family: "IBM Plex Sans", system-ui, sans-serif; fill: var(--k-ort) }
+.karte-svg .ort text { font-size: 15px; font-weight: 600; text-anchor: middle; paint-order: stroke; stroke: var(--k-grund); stroke-width: 4px }
+.karte-svg .pkt circle { fill: var(--k-ort) }
+.karte-svg .pkt text { font-size: 11.5px; paint-order: stroke; stroke: var(--k-grund); stroke-width: 3px }
+.karte-svg .og1, .karte-svg .og2, .karte-svg .art, .karte-svg .og1-hi { fill: none; stroke-linejoin: round; stroke-linecap: round }
+.karte-svg .og1 { stroke: var(--k-de); stroke-width: 3.2 }
+.karte-svg .og2 { stroke: var(--k-de); stroke-width: 2.2 }
+.karte-svg .art { stroke: var(--k-de); stroke-width: 1.6; stroke-dasharray: 7 5 }
+.karte-svg .og1-hi { stroke: var(--k-geg); stroke-width: 9; opacity: 0; transition: opacity .3s }
+.karte-svg .og1-hi.an { opacity: .45 }
+.karte-svg .reg { font: 700 13px "IBM Plex Mono", monospace; fill: var(--k-de); letter-spacing: .04em; text-anchor: middle; paint-order: stroke; stroke: var(--k-grund); stroke-width: 4px; opacity: 0; transition: opacity .3s }
+.karte-svg .angriff, .karte-svg .gegen, .karte-svg .sek { opacity: 0; transition: opacity .3s; pointer-events: none }
+.karte-svg .an { opacity: 1 }
+.karte-svg .sek.an { pointer-events: auto; cursor: pointer }
+.karte-svg .angriff path { stroke: var(--k-ang); stroke-width: 4; fill: none; stroke-linecap: round }
+.karte-svg .gegen path { stroke: var(--k-geg); stroke-width: 3; fill: none; stroke-dasharray: 6 4 }
+.karte-svg .spitze { stroke: none !important; stroke-dasharray: none !important }
+.karte-svg .angriff .spitze { fill: var(--k-ang) !important }
+.karte-svg .gegen .spitze { fill: var(--k-geg) !important }
+.karte-svg .sek rect { fill: var(--k-grund); stroke: var(--k-ang); stroke-width: 2 }
+.karte-svg .sek text { font: 600 13px "IBM Plex Sans", sans-serif; text-anchor: middle; fill: var(--k-ang) }
+.karte-svg .sek:hover rect, .karte-svg .sek:focus rect { fill: var(--k-ang) }
+.karte-svg .sek:hover text, .karte-svg .sek:focus text { fill: var(--k-grund) }
+.karte-svg .sek:focus { outline: none }
+.kwrap[data-sek="links"] .sek[data-sek="links"] rect, .kwrap[data-sek="mitte"] .sek[data-sek="mitte"] rect, .kwrap[data-sek="rechts"] .sek[data-sek="rechts"] rect { fill: var(--k-ang) }
+.kwrap[data-sek="links"] .sek[data-sek="links"] text, .kwrap[data-sek="mitte"] .sek[data-sek="mitte"] text, .kwrap[data-sek="rechts"] .sek[data-sek="rechts"] text { fill: var(--k-grund) }
+.kwrap[data-sek] .angriff { opacity: .25 }
+.kwrap[data-sek="links"] .angriff.links, .kwrap[data-sek="mitte"] .angriff.mitte, .kwrap[data-sek="rechts"] .angriff.rechts { opacity: 1 }
+.karte-svg .mst path { stroke: var(--k-ort); stroke-width: 2; fill: none }
+.karte-svg .mst text, .karte-svg .nord text { font-size: 12px; text-anchor: middle }
+.karte-svg .nord path { fill: var(--k-ort) }
+.kleg { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 13px; color: var(--muted) }
+.kleg span { display: inline-flex; align-items: center; gap: 6px }
+.kleg .l { display: inline-block; width: 26px; height: 0; border-top: 3px solid var(--ink) }
+.kleg .l.og2 { border-top-width: 2px }
+.kleg .l.art { border-top: 2px dashed var(--ink) }
+.kleg .l.ang { border-top: 4px solid #2a5d91 }
+.kleg .l.geg { border-top: 3px dashed var(--red) }
+.kleg .l.hl { border-top: 1px solid #b9ab88 }
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) .karte-svg { --k-grund: #24221c; --k-hl: #5c5442; --k-gem: #8a8170; --k-ort: #e6dfcc; --k-de: #ece6d6; --k-ang: #6fa3e0; --k-geg: #e4533f }
+  :root:not([data-theme="light"]) .kleg .l.ang { border-top-color: #6fa3e0 }
+}
+:root[data-theme="dark"] .karte-svg { --k-grund: #24221c; --k-hl: #5c5442; --k-gem: #8a8170; --k-ort: #e6dfcc; --k-de: #ece6d6; --k-ang: #6fa3e0; --k-geg: #e4533f }
+@media (max-width: 860px) {
+  .kwrap { grid-template-columns: minmax(0, 1fr) }
+  .kpanel { position: static }
+}
+@media (max-width: 560px) { .ksteps button { flex: 1 1 140px } }
+.ksteps button { display: block }
+.ksteps button .d, .ksteps button .t { display: block }
+.prose a + a { margin-left: 5px }
+@media (max-width: 560px) { .karte-svg .ort text { font-size: 20px } .karte-svg .reg, .karte-svg .sek text { font-size: 16px } }
