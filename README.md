@@ -2,7 +2,9 @@
 
 Die Schlachten bei Bullecourt (11.04. und 03.–17.05.1917) mit Schwerpunkt auf den Panzern, mit Belegstatus je Aussage.
 
-- `index.html` – beide Angriffe: Zahlen, Ablauf, Deutungen
+- `index.html` – Startseite: Überblick und interaktive Karte des Gefechtsfelds
+- `schlachten.html` – beide Angriffe: Zahlen, Ablauf, Deutungen
+- `karte.html` – Weiterleitung der alten Kartenadresse auf die Startseite
 - `panzer.html` – die zwölf Panzer vom 11.04.1917, deutsche Abwehr, Feigheitsvorwurf
 - `grabungen.html` – Grabungen von Breaking Ground Heritage und Operation Nightingale 2017–2019
 - `quellen.html` – Quellenverzeichnis (Q1–Q16) mit Abhängigkeiten
