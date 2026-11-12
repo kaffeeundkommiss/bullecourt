@@ -15,7 +15,7 @@ def b(kind):
 def meta(kind, *ids, text=""):
     return f'<div class="meta">{b(kind)}{text}{q(*ids)}</div>'
 
-NAV = [("index.html", "Schlachten"), ("karte.html", "Karte"), ("panzer.html", "Panzer"), ("grabungen.html", "Grabungen")]
+NAV = [("index.html", "Karte"), ("schlachten.html", "Schlachten"), ("panzer.html", "Panzer"), ("grabungen.html", "Grabungen")]
 
 def page(fn, title, desc, eyebrow, h1, body, current):
     nav = "\n".join(
@@ -103,7 +103,7 @@ def item(t, h, text, metas, key=False, why=""):
       </li>
 """
 
-# ---------- index.html: Schlachten ----------
+# ---------- schlachten.html ----------
 stats = f"""  <section class="sect" aria-labelledby="zH">
     <h2 id="zH">Zwei Angriffe in Zahlen</h2>
     <div class="stats">
@@ -152,10 +152,6 @@ tl2 = "".join([
          [meta("wid", 5, 3, text="Ende 17.05. (Q5) oder 20.05. (Q3): "), meta("ok", 3, 4, 5, text="≈ 7.000: ")]),
 ])
 
-intro = f"""  <section class="sect">
-    <p class="lede">Bei Bullecourt in Nordfrankreich griffen im April und Mai 1917 australische und britische Truppen die Hindenburglinie an. Im ersten Angriff am 11. April sollten Panzer die fehlende Artillerie ersetzen. Der Angriff scheiterte, und die Australier gaben lange den Panzerbesatzungen die Schuld. Neuere Forschung und Grabungen von Veteranen zeichnen ein anderes Bild. Jede Aussage trägt ihren Belegstatus.</p>
-  </section>
-"""
 
 deut = f"""  <section class="sect" aria-labelledby="dH">
     <h2 id="dH">Warum scheiterte der erste Angriff?</h2>
@@ -191,7 +187,10 @@ deut = f"""  <section class="sect" aria-labelledby="dH">
   </section>
 """
 
-body = intro + STATUS + stats + f"""  <section class="sect" aria-labelledby="t1H">
+body = f"""  <section class="sect">
+    <p class="lede">Beide Angriffe auf Bullecourt im Einzelnen: die Zahlen, der Ablauf im April und im Mai 1917 und die Frage, warum der erste Angriff scheiterte.</p>
+  </section>
+""" + STATUS + stats + f"""  <section class="sect" aria-labelledby="t1H">
     <h2 id="t1H">Erster Angriff: April 1917</h2>
     <ol class="tl">
 {tl1}    </ol>
@@ -202,8 +201,8 @@ body = intro + STATUS + stats + f"""  <section class="sect" aria-labelledby="t1H
 {tl2}    </ol>
   </section>
 """ + deut
-page("index.html", "Bullecourt 1917", "Die Schlachten bei Bullecourt im April und Mai 1917, Schwerpunkt Panzer: Ablauf, Zahlen, Deutungen, mit Belegstatus je Aussage.",
-     "Westfront · April und Mai 1917", "Die Schlachten bei Bullecourt", body, "index.html")
+page("schlachten.html", "Bullecourt 1917: Schlachten", "Die beiden Angriffe auf Bullecourt im April und Mai 1917: Zahlen, Ablauf, Deutungen, mit Belegstatus je Aussage.",
+     "Bullecourt · April und Mai 1917", "Zwei Angriffe", body, "schlachten.html")
 
 # ---------- panzer.html ----------
 rows = [
@@ -316,7 +315,7 @@ gr = f"""  <section class="sect">
 page("grabungen.html", "Bullecourt 1917: Grabungen", "Breaking Ground Heritage und Operation Nightingale: Veteranen graben 2017 bis 2019 bei Bullecourt nach Panzer 796.",
      "Bullecourt · 2017 – 2019", "Grabungen nach Panzer 796", gr, "grabungen.html")
 
-# ---------- karte.html ----------
+# ---------- index.html: Karte (Startseite) ----------
 SVG = (ROOT / "werkzeuge" / "karte-grund.svg").read_text(encoding="utf-8")
 SCHRITTE = [
     ("1", "März 1917", "Die Stellung",
@@ -342,6 +341,7 @@ def sekt(name):
     return li
 sektionen = "\n".join(f'      <div class="ktext ksek" data-sektext="{k_}" hidden>\n        <h3><span class="d">Sektion {nm}</span>Vier Panzer</h3>\n        <ul class="pzl">{sekt(nm)}</ul>\n        {meta("part", 1, 2)}\n        <p class="why">Die Pfeile zeigen nur die Richtung der Sektion, nicht die Wege einzelner Panzer. Mehr auf der Seite <a href="panzer.html#pH">Panzer</a>.</p>\n        <p><button type="button" class="zur">Zurück zum Ablauf</button></p>\n      </div>' for k_, nm in (("links", "Links"), ("mitte", "Mitte"), ("rechts", "Rechts")))
 karte = f"""  <section class="sect">
+    <p class="lede">Bei Bullecourt in Nordfrankreich griffen im April und Mai 1917 australische und britische Truppen die Hindenburglinie an. Im ersten Angriff am 11. April sollten Panzer die fehlende Artillerie ersetzen. Der Angriff scheiterte, und die Australier gaben lange den Panzerbesatzungen die Schuld. Neuere Forschung und Grabungen von Veteranen zeichnen ein anderes Bild. Jede Aussage trägt ihren Belegstatus.</p>
     <p class="lede">Die Karte zeigt das Gefechtsfeld des ersten Angriffs am 11. April 1917: deutsche Gräben, die Angriffsrichtung der Panzer und der australischen Infanterie und die deutschen Gegenstöße. Wähle einen Zeitpunkt; im dritten und vierten Schritt öffnen die Schilder Links, Mitte und Rechts die Panzer der jeweiligen Sektion.</p>
   </section>
   <section class="sect" aria-labelledby="kH">
@@ -401,8 +401,22 @@ karte = f"""  <section class="sect">
 }})();
 </script>
 """
-page("karte.html", "Bullecourt 1917: Karte", "Interaktive Karte des Angriffs auf Bullecourt am 11. April 1917: Hindenburglinie, Panzersektionen, Einbruch und deutsche Gegenstöße.",
-     "Bullecourt · 11. April 1917", "Das Gefechtsfeld", karte, "karte.html")
+page("index.html", "Bullecourt 1917", "Die Schlachten bei Bullecourt im April und Mai 1917, Schwerpunkt Panzer: interaktive Karte des Gefechtsfelds, Ablauf, Zahlen, Deutungen, mit Belegstatus je Aussage.",
+     "Westfront · April und Mai 1917", "Die Schlachten bei Bullecourt", karte + STATUS, "index.html")
+
+# Alte Adresse karte.html leitet auf die Startseite um.
+(ROOT / "karte.html").write_text("""<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<title>Bullecourt 1917</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://kaffeeundkommiss.github.io/bullecourt/">
+<meta http-equiv="refresh" content="0; url=./">
+</head>
+<body><p>Die Karte steht jetzt auf der <a href="./">Startseite</a>.</p></body>
+</html>
+""", encoding="utf-8")
 
 # ---------- quellen.html ----------
 SRC = [
