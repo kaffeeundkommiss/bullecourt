@@ -1,6 +1,7 @@
 """Erzeugt die HTML-Seiten der Bullecourt-Seite aus einer gemeinsamen Vorlage.
 Aufruf: python3 werkzeuge/bau.py (im Repo-Wurzelverzeichnis)."""
 import pathlib
+import re
 
 BASE = "https://kaffeeundkommiss.github.io/bullecourt/"
 ROOT = pathlib.Path(__file__).resolve().parent.parent
@@ -16,6 +17,17 @@ def meta(kind, *ids, text=""):
     return f'<div class="meta">{b(kind)}{text}{q(*ids)}</div>'
 
 NAV = [("index.html", "Karte"), ("schlachten.html", "Schlachten"), ("panzer.html", "Panzer"), ("grabungen.html", "Grabungen")]
+
+VORSCHAU = re.compile(r'<!-- Vorschau für Linkvorschauen, erzeugt mit werkzeuge/vorschau\.js -->\n(?:<meta [^>]*>\n)*')
+
+def vorschau_behalten(fn, html):
+    """Übernimmt den Vorschau-Block (og:image, twitter:card) aus der bisherigen Datei.
+    Er wird von werkzeuge/vorschau.js erzeugt; nach Änderungen an Titel oder Beschreibung dort neu ausführen."""
+    alt = ROOT / fn
+    m = VORSCHAU.search(alt.read_text(encoding="utf-8")) if alt.exists() else None
+    if not m:
+        return html
+    return re.sub(r'(<meta property="og:url"[^>]*>\n)', lambda x: x.group(1) + m.group(0), html, count=1)
 
 def page(fn, title, desc, eyebrow, h1, body, current):
     nav = "\n".join(
@@ -77,6 +89,7 @@ def page(fn, title, desc, eyebrow, h1, body, current):
 </body>
 </html>
 """
+    html = vorschau_behalten(fn, html)
     (ROOT / fn).write_text(html, encoding="utf-8")
 
 STATUS = """  <section class="sect" aria-labelledby="stH">

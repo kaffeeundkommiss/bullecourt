@@ -1,0 +1,8 @@
+{ "basis": "https://kaffeeundkommiss.github.io/bullecourt/", "ordner": "vorschau", "site_name": "Erster Weltkrieg",
+  "seiten": [
+    { "datei": "index.html", "bild": "karte", "kicker": "Westfront · April und Mai 1917", "titel": "Bullecourt 1917", "karte": "svg.karte-svg" },
+    { "datei": "schlachten.html", "bild": "schlachten", "kicker": "Bullecourt 1917", "titel": "Die beiden Angriffe" },
+    { "datei": "panzer.html", "bild": "panzer", "kicker": "Bullecourt 1917 · 11. April", "titel": "Die zwölf Panzer" },
+    { "datei": "grabungen.html", "bild": "grabungen", "kicker": "Bullecourt 1917 · 2017–2019", "titel": "Die Grabungen" },
+    { "datei": "quellen.html", "bild": "quellen", "kicker": "Bullecourt 1917", "titel": "Quellen" }
+  ] }
