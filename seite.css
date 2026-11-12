@@ -171,12 +171,25 @@ ol.srcs li:target { background: var(--red-soft); outline: 6px solid var(--red-so
 .karte-svg .art { stroke: var(--k-de); stroke-width: 1.6; stroke-dasharray: 7 5 }
 .karte-svg .og1-hi { stroke: var(--k-geg); stroke-width: 9; opacity: 0; transition: opacity .3s }
 .karte-svg .og1-hi.an { opacity: .45 }
-.karte-svg .reg { font: 700 13px "IBM Plex Mono", monospace; fill: var(--k-de); letter-spacing: .04em; text-anchor: middle; paint-order: stroke; stroke: var(--k-grund); stroke-width: 4px; opacity: 0; transition: opacity .3s }
-.karte-svg .angriff, .karte-svg .gegen, .karte-svg .sek { opacity: 0; transition: opacity .3s; pointer-events: none }
+.karte-svg .angriff, .karte-svg .gegen, .karte-svg .rueck, .karte-svg .sek, .karte-svg .u, .karte-svg .ulab { opacity: 0; transition: opacity .3s; pointer-events: none }
+.karte-svg .u.an { pointer-events: auto }
 .karte-svg .an { opacity: 1 }
 .karte-svg .sek.an { pointer-events: auto; cursor: pointer }
-.karte-svg .angriff path { stroke: var(--k-ang); stroke-width: 4; fill: none; stroke-linecap: round }
-.karte-svg .gegen path { stroke: var(--k-geg); stroke-width: 3; fill: none; stroke-dasharray: 6 4 }
+.karte-svg .angriff path, .karte-svg .gegen path, .karte-svg .rueck path { fill: none; stroke-linecap: round }
+.karte-svg .angriff path { stroke: var(--k-ang); stroke-width: 6 }
+.karte-svg .gegen path { stroke: var(--k-geg); stroke-width: 5; stroke-dasharray: 9 5 }
+.karte-svg .rueck path { stroke: var(--k-ang); stroke-width: 4; stroke-dasharray: 3 5 }
+.karte-svg path.halo { stroke: var(--k-grund) !important; stroke-width: 10 !important; stroke-dasharray: none !important; opacity: .9 }
+.karte-svg .rueck .spitze { fill: var(--k-ang) !important }
+.karte-svg .u path, .karte-svg .u rect { stroke: var(--k-grund); stroke-width: 1.6 }
+.karte-svg .u.al path, .karte-svg .u.pz rect { fill: var(--k-ang) }
+.karte-svg .u.de path { fill: var(--k-de) }
+.karte-svg .u.aus rect { fill: var(--k-ang); opacity: .8 }
+.karte-svg .u .x { stroke: var(--k-geg) !important; stroke-width: 3 !important; fill: none }
+.karte-svg .u text, .karte-svg .ulab { font: 700 12.5px "IBM Plex Sans", sans-serif; text-anchor: middle; paint-order: stroke; stroke: var(--k-grund); stroke-width: 4px }
+.karte-svg .u.al text, .karte-svg .ulab { fill: var(--k-ang) }
+.karte-svg .u.de text { fill: var(--k-de); font-family: "IBM Plex Mono", monospace }
+.karte-svg .seite { font: 600 13px "IBM Plex Sans", sans-serif; fill: var(--k-ort); paint-order: stroke; stroke: var(--k-grund); stroke-width: 4px }
 .karte-svg .spitze { stroke: none !important; stroke-dasharray: none !important }
 .karte-svg .angriff .spitze { fill: var(--k-ang) !important }
 .karte-svg .gegen .spitze { fill: var(--k-geg) !important }
@@ -200,6 +213,11 @@ ol.srcs li:target { background: var(--red-soft); outline: 6px solid var(--red-so
 .kleg .l.ang { border-top: 4px solid #2a5d91 }
 .kleg .l.geg { border-top: 3px dashed var(--red) }
 .kleg .l.hl { border-top: 1px solid #b9ab88 }
+.kleg .sym { display: inline-block; width: 12px; height: 12px; background: #2a5d91 }
+.kleg .sym.inf { transform: rotate(45deg) scale(.8) }
+.kleg .sym.de { background: var(--ink) }
+.kleg .sym.pz { width: 15px; height: 9px; border-radius: 2px }
+.kleg .emb-l { width: 18px; height: 18px }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) .karte-svg { --k-grund: #24221c; --k-hl: #5c5442; --k-gem: #8a8170; --k-ort: #e6dfcc; --k-de: #ece6d6; --k-ang: #6fa3e0; --k-geg: #e4533f }
   :root:not([data-theme="light"]) .kleg .l.ang { border-top-color: #6fa3e0 }
@@ -213,4 +231,4 @@ ol.srcs li:target { background: var(--red-soft); outline: 6px solid var(--red-so
 .ksteps button { display: block }
 .ksteps button .d, .ksteps button .t { display: block }
 .prose a + a { margin-left: 5px }
-@media (max-width: 560px) { .karte-svg .ort text { font-size: 20px } .karte-svg .reg, .karte-svg .sek text { font-size: 16px } }
+@media (max-width: 560px) { .karte-svg .ort text { font-size: 20px } .karte-svg .u text, .karte-svg .sek text, .karte-svg .seite { font-size: 16px } }

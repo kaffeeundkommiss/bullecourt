@@ -118,9 +118,10 @@ def pl(pts):
     return path([MP(*p) for p in pts])
 def pfeil(a, b, cls, step):
     (ax, ay), (bx, by) = MP(*a), MP(*b)
-    ang = math.atan2(by - ay, bx - ax); L = 11; w = 0.5
+    ang = math.atan2(by - ay, bx - ax); L = 17; w = 0.55
     h1 = (bx - L * math.cos(ang - w), by - L * math.sin(ang - w)); h2 = (bx - L * math.cos(ang + w), by - L * math.sin(ang + w))
-    return (f'<g class="{cls}" data-s="{step}"><path d="M{f(ax)},{f(ay)}L{f(bx)},{f(by)}"/>'
+    sx, sy = bx - 0.8 * L * math.cos(ang), by - 0.8 * L * math.sin(ang)
+    return (f'<g class="{cls}" data-s="{step}"><path class="halo" d="M{f(ax)},{f(ay)}L{f(sx)},{f(sy)}"/><path d="M{f(ax)},{f(ay)}L{f(sx)},{f(sy)}"/>'
             f'<path class="spitze" d="M{f(h1[0])},{f(h1[1])}L{f(bx)},{f(by)}L{f(h2[0])},{f(h2[1])}Z"/></g>')
 
 orte_svg = ""
@@ -134,10 +135,69 @@ kx, ky = MP(665, 330); mx, my = MP(875, 415)
 punkte = (f'<g class="pkt"><circle cx="{f(kx)}" cy="{f(ky)}" r="3"/><text x="{f(kx+6)}" y="{f(ky-5)}">Kapelle</text></g>'
           f'<g class="pkt"><circle cx="{f(mx)}" cy="{f(my)}" r="3"/><text x="{f(mx+6)}" y="{f(my-5)}">Sanssouci-Mühle</text></g>')
 
+# ---- Truppensymbole (schematisch): Raute = Infanterie, Rechteck = Panzer ----
+def inf(xy, seite, label, step, dx=0, dy=-18, titel=""):
+    x, y = MP(*xy); r = 12
+    t = f'<title>{titel or label}</title>'
+    lab = f'<text x="{f(x+dx)}" y="{f(y+dy)}">{label}</text>' if label else ""
+    return (f'<g class="u inf {seite}" data-s="{step}">{t}<path d="M{f(x)},{f(y-r)}L{f(x+r)},{f(y)}L{f(x)},{f(y+r)}L{f(x-r)},{f(y)}Z"/>{lab}</g>')
+def pz(x, y, nr, step, aus=False):
+    w, h = 20, 12
+    kreuz = f'<path class="x" d="M{f(x-w/2-2)},{f(y-h/2-2)}L{f(x+w/2+2)},{f(y+h/2+2)}M{f(x+w/2+2)},{f(y-h/2-2)}L{f(x-w/2-2)},{f(y+h/2+2)}"/>' if aus else ""
+    return (f'<g class="u pz{" aus" if aus else ""}" data-s="{step}"><title>Panzer {nr}{", ausgeschaltet" if aus else ""}</title>'
+            f'<rect x="{f(x-w/2)}" y="{f(y-h/2)}" width="{w}" height="{h}" rx="1.5"/>{kreuz}</g>')
+
 reg = ""
-for t, xy in (("IR 120", (420, 300)), ("IR 124", (780, 190)), ("GR 123", (1035, 495))):
-    x, y = MP(*xy)
-    reg += f'<text class="reg" data-s="1 2 3 4" x="{f(x)}" y="{f(y)}">{t}</text>'
+# Deutsche Regimenter (Moser), alle Schritte
+for t, xy, tt in (("IR 120", (420, 300), "Infanterie-Regiment 120"), ("IR 124", (780, 190), "Infanterie-Regiment 124"), ("GR 123", (1035, 495), "Grenadier-Regiment 123")):
+    reg += inf(xy, "de", t, "1 2 3 4 5", titel=tt)
+
+# Panzer je Sektion: Lage am 11.04. früh (Schritt 3) und Endlage (Schritt 4), Anteil entlang des Sektionspfeils
+SEKT_PZ = {"rechts": [("593", .15, True), ("711", .3, True), ("586", 1.05, True), ("799", .95, True)],
+           "mitte": [("702", -.05, False), ("585", .25, True), ("590", .85, True), ("798", .12, False)],
+           "links": [("796", 1.0, True), ("797", .9, True), ("531", .7, True), ("800", .45, True)]}
+einheiten = ""
+for sk, lst in SEKT_PZ.items():
+    (a1, b1), (a2, b2) = ANGRIFF[sk]
+    A = [(MP(*a1)[i] + MP(*a2)[i]) / 2 for i in (0, 1)]; B = [(MP(*b1)[i] + MP(*b2)[i]) / 2 for i in (0, 1)]
+    ang = math.atan2(B[1] - A[1], B[0] - A[0]); nx, ny = -math.sin(ang), math.cos(ang)
+    for i, (nr, t, aus) in enumerate(lst):
+        o = (i - 1.5) * 22
+        einheiten += pz(A[0] + (B[0] - A[0]) * .12 + nx * o, A[1] + (B[1] - A[1]) * .12 + ny * o, nr, "3")
+        einheiten += pz(A[0] + (B[0] - A[0]) * t + nx * o, A[1] + (B[1] - A[1]) * t + ny * o, nr, "4", aus)
+
+# 10.04.: Infanterie vor dem Draht, Panzer bleiben im Schnee zurück
+einheiten += inf((560, 640), "al", "", "2", titel="Australische Infanterie, 10.04.") + inf((700, 660), "al", "4. austr. Div.", "2", dx=0, dy=24, titel="4. australische Division, 10.04.")
+for i, x in enumerate((540, 590, 640, 690)):
+    X, Y = MP(x, 1010); einheiten += pz(X, Y, "der 11. Kompanie, verspätet", "2")
+nX, nY = MP(620, 1040)
+einheiten += f'<text class="ulab" data-s="2" x="{f(nX)}" y="{f(nY+8)}">Panzer im Schnee verspätet</text>'
+# 11.04.: australische Infanterie hinter den Panzern, dann in den Gräben
+einheiten += inf((505, 665), "al", "4. austr. Div.", "3", dy=-18, titel="4. australische Division") + inf((735, 690), "al", "", "3", titel="4. australische Division")
+einheiten += inf((560, 430), "al", "", "4", titel="Australier im Einbruch") + inf((640, 420), "al", "", "4", titel="Australier im Einbruch") + inf((740, 470), "al", "", "4", titel="Australier im Einbruch")
+# Mai: 2. austr. Division und britische 62. Division
+einheiten += inf((620, 650), "al", "", "5", titel="2. australische Division") + inf((760, 670), "al", "2. austr. Div.", "5", dy=24, titel="2. australische Division")
+einheiten += inf((260, 640), "al", "62. brit. Div.", "5", dy=24, titel="Britische 62. Division") + inf((360, 660), "al", "", "5", titel="Britische 62. Division")
+for i, (x, y) in enumerate(((230, 585), (275, 597), (320, 609), (365, 621))):
+    X, Y = MP(x, y); einheiten += pz(X, Y, "der 12. Kompanie (bei der 62. Division)", "5")
+MAI = [((640, 630), (640, 470)), ((760, 650), (760, 500)), ((300, 580), (390, 470))]
+mai = "".join(pfeil(a, b, "angriff mai", "5") for a, b in MAI)
+RUECK = [((630, 620), (630, 760))]
+rueck = "".join(pfeil(a, b, "rueck", "2") for a, b in RUECK)
+
+# Kennzeichnung der Seiten mit Hoheitszeichen (wie Richthofen-Karte)
+def kreuz(x, y):
+    return (f'<g class="emb" transform="translate({f(x)},{f(y)})"><rect x="-11" y="-11" width="22" height="22" fill="#fff" stroke="#000" stroke-width=".5"/>'
+            '<path d="M-3.4,-10 L3.4,-10 L1.4,-1.4 L10,-3.4 L10,3.4 L1.4,1.4 L3.4,10 L-3.4,10 L-1.4,1.4 L-10,3.4 L-10,-3.4 L-1.4,-1.4 Z" fill="#111"/></g>')
+def roundel(x, y):
+    return (f'<g class="emb" transform="translate({f(x)},{f(y)})"><circle r="11" fill="#1f3a8a" stroke="#fff" stroke-width="1"/><circle r="7.3" fill="#fff"/><circle r="3.6" fill="#c8202f"/></g>')
+seiten = ""
+for xy in ((300, 180), (1050, 300)):
+    x, y = MP(*xy); seiten += kreuz(x, y)
+for xy in ((250, 820), (900, 920)):
+    x, y = MP(*xy); seiten += roundel(x, y)
+x, y = MP(300, 180); seiten += f'<text class="seite" x="{f(x+18)}" y="{f(y+5)}">deutsche Seite</text>'
+x, y = MP(250, 820); seiten += f'<text class="seite" x="{f(x+18)}" y="{f(y+5)}">britische und australische Seite</text>'
 
 ang = "".join(pfeil(a, b, "angriff " + sek, "3 4") for sek, lst in ANGRIFF.items() for a, b in lst)
 geg = "".join(pfeil(a, b, "gegen", "4") for a, b in GEGEN)
@@ -169,9 +229,13 @@ svg = f"""<svg class="karte-svg" viewBox="0 0 {SW} {SH}" role="img" aria-labelle
 <path class="og1" d="{pl(OG1)}"/>
 <path class="og1-hi" data-s="4" d="{pl(OG1[3:13])}"/>
 {punkte}
-{reg}
+{seiten}
+{rueck}
 {ang}
+{mai}
 {geg}
+{reg}
+{einheiten}
 {sek}
 {massstab}
 {nord}

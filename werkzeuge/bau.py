@@ -331,7 +331,7 @@ SCHRITTE = [
      "Die Australier dringen beiderseits der Kapelle in die ersten beiden Gräben ein (rot hervorgehoben). Die Panzer sind bis etwa 7 Uhr größtenteils ausgeschaltet. Ohne Nachschub und Artillerie werden die Australier durch Gegenstöße aus Riencourt, Bullecourt und von der Sanssouci-Mühle zurückgedrängt.",
      [meta("ok", 1, 3, 4, text="Verlauf: "), meta("one", 17, text="Einbruchsabschnitt und Richtung der Gegenstöße: ")]),
     ("5", "03.–17.05.1917", "Zweiter Angriff",
-     "Die 2. australische Division greift über dasselbe Gelände an, diesmal mit Artillerie und ohne Panzer. Links von ihr greift die britische 62. Division mit acht Panzern Bullecourt an. Für den Mai liegt keine eingepasste Karte vor; die Karte zeigt deshalb nur die Stellung.",
+     "Die 2. australische Division greift über dasselbe Gelände an, diesmal mit Artillerie und ohne Panzer. Links von ihr greift die britische 62. Division mit acht Panzern Bullecourt an. Für den Mai liegt keine eingepasste Karte vor; Symbole und Pfeile zeigen die Lage nur schematisch.",
      [meta("ok", 3, 4, 5, text="Angriff: "), meta("one", 3, text="keine Panzer bei den Australiern: "), meta("one", 14, text="acht Panzer bei der 62. Division: ")]),
 ]
 knopf = "\n".join(f'      <button type="button" data-step="{n}"{" aria-pressed=\"true\"" if n == "1" else " aria-pressed=\"false\""}><span class="d">{d}</span><span class="t">{t}</span></button>' for n, d, t, _, _ in SCHRITTE)
@@ -354,7 +354,9 @@ karte = f"""  <section class="sect">
 {SVG}
         <figcaption class="kleg">
           <span><i class="l og1"></i>Erster Graben</span><span><i class="l og2"></i>Zweiter Graben</span><span><i class="l art"></i>Artillerie-Schutzstellung</span>
-          <span><i class="l ang"></i>Angriff (Panzer, Infanterie)</span><span><i class="l geg"></i>Deutscher Gegenstoß</span><span><i class="l hl"></i>Höhenlinie, 5 m</span>
+          <span><i class="l ang"></i>Angriff</span><span><i class="l geg"></i>Deutscher Gegenstoß</span><span><i class="l hl"></i>Höhenlinie, 5 m</span>
+          <span><i class="sym pz"></i>Panzer (rotes Kreuz: ausgeschaltet)</span><span><i class="sym inf"></i>Britische und australische Infanterie</span><span><i class="sym inf de"></i>Deutsches Regiment</span>
+          <span><svg class="emb-l" viewBox="-12 -12 24 24" aria-hidden="true"><rect x="-11" y="-11" width="22" height="22" fill="#fff" stroke="#000" stroke-width=".5"/><path d="M-3.4,-10 L3.4,-10 L1.4,-1.4 L10,-3.4 L10,3.4 L1.4,1.4 L3.4,10 L-3.4,10 L-1.4,1.4 L-10,3.4 L-10,-3.4 L-1.4,-1.4 Z" fill="#111"/></svg>Deutsche Seite</span><span><svg class="emb-l" viewBox="-12 -12 24 24" aria-hidden="true"><circle r="11" fill="#1f3a8a"/><circle r="7.3" fill="#fff"/><circle r="3.6" fill="#c8202f"/></svg>Britische und australische Seite</span>
         </figcaption>
       </figure>
       <div class="kpanel" aria-live="polite">
@@ -368,7 +370,8 @@ karte = f"""  <section class="sect">
     <ul class="prose">
       <li>Gräben, Regimenter, Angriffspfeile und Gegenstöße sind aus der deutschen Karte „Schlacht am 11.4.“ bei Moser (1927) übertragen ({q(17)}). Sie zeigt die Sicht der Verteidiger.</li>
       <li>Die alte Karte wurde über sieben Ortslagen auf heutige Gemeindegrenzen eingepasst. Die Abweichung beträgt 130 bis 780 m; die Linien sind daher nur auf einige hundert Meter genau.</li>
-      <li>Welche Panzersektion zu welchem Angriffspfeil gehört, ist schematisch nach den Zielen in {q(1, 2)} zugeordnet.</li>
+      <li>Welche Panzersektion zu welchem Angriffspfeil gehört, ist schematisch nach den Zielen in {q(1, 2)} zugeordnet. Die Endlage der einzelnen Panzer ist aus den Verläufen in der Panzertabelle abgeleitet (zum Beispiel „im Draht der ersten Linie“) und nicht vermessen.</li>
+      <li>Truppensymbole sind schematisch: Rechteck für Panzer, Raute für Infanterie. Die Lage der australischen und britischen Verbände am 10.04. und im Mai ist nicht aus einer Karte übernommen, sondern nur nach dem Text der Quellen gesetzt. Die Seiten sind mit den Hoheitszeichen der Luftstreitkräfte gekennzeichnet wie auf der Richthofen-Karte; die Australier flogen unter dem britischen Zeichen.</li>
       <li>Grundlage: Höhenmodell AWS Terrain Tiles (Mapzen, u. a. aus SRTM), Gemeindegrenzen france-geojson nach IGN. Ortspunkte zeigen die Mitte der heutigen Gemeinde, nicht den Dorfkern von 1917.</li>
     </ul>
   </section>
