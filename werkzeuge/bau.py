@@ -6,6 +6,12 @@ import re
 BASE = "https://kaffeeundkommiss.github.io/bullecourt/"
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
+PFAD_A = '<nav class="kk-pfad" aria-label="Pfad"><div class="kk-in"><a href="https://kaffeeundkommiss.github.io/geschichte/">Geschichte</a> › <a href="https://kaffeeundkommiss.github.io/geschichte/erster-weltkrieg/">Erster Weltkrieg 1914–1918</a> › '
+def pfad(fn):
+    """Pfad zur Themenübersicht unter der Leiste."""
+    letzt = '<span aria-current="page">Bullecourt 1917</span>' if fn == "index.html" else '<a href="./">Bullecourt 1917</a>'
+    return PFAD_A + letzt + "</div></nav>\n"
+
 def q(*ids):
     return "".join(f'<a href="quellen.html#q{i}">Q{i}</a>' for i in ids)
 
@@ -67,7 +73,7 @@ def page(fn, title, desc, eyebrow, h1, body, current, scripts=""):
   <a class="kk-haus" href="https://kaffeeundkommiss.github.io/"><img src="kk-tasse.svg" alt="" width="22" height="22"><span>Kaffee und Kommiss</span></a>
   <nav class="kk-bereiche" aria-label="Bereiche"><a href="https://kaffeeundkommiss.github.io/geschichte/" aria-current="true">Geschichte</a><a href="https://kaffeeundkommiss.github.io/sicherheitspolitik/"><span class="kk-lang">Sicherheitspolitik</span><span class="kk-kurz">Sicherheit</span></a><a href="https://kaffeeundkommiss.github.io/politik/">Politik</a></nav>
 </div></div>
-<div class="kk-kopf"><div class="kk-in">
+{pfad(fn)}<div class="kk-kopf"><div class="kk-in">
   <a class="kk-schild" href="index.html"><img src="icons/favicon.svg" alt="" width="44" height="44"><span><span class="kk-name" style="display:block">Bullecourt 1917</span><span class="kk-unter" style="display:block">Panzer und Infanterie an der Hindenburglinie</span></span></a>
 </div></div>
 <div class="wrap">
