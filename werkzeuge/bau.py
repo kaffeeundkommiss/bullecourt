@@ -18,7 +18,7 @@ def meta(kind, *ids, text=""):
 
 NAV = [("index.html", "Karte"), ("schlachten.html", "Schlachten"), ("panzer.html", "Panzer"), ("grabungen.html", "Grabungen")]
 
-VORSCHAU = re.compile(r'<!-- Vorschau für Linkvorschauen, erzeugt mit werkzeuge/vorschau\.js -->\n(?:<meta [^>]*>\n)*')
+VORSCHAU = re.compile(r'<!-- Vorschau für Linkvorschauen, erzeugt mit werkzeuge/vorschau\.js -->\n(?:<meta (?:property="og:image|name="twitter:)[^>]*>\n)*')
 
 def vorschau_behalten(fn, html):
     """Übernimmt den Vorschau-Block (og:image, twitter:card) aus der bisherigen Datei.
@@ -29,7 +29,7 @@ def vorschau_behalten(fn, html):
         return html
     return re.sub(r'(<meta property="og:url"[^>]*>\n)', lambda x: x.group(1) + m.group(0), html, count=1)
 
-def page(fn, title, desc, eyebrow, h1, body, current):
+def page(fn, title, desc, eyebrow, h1, body, current, scripts=""):
     nav = "\n".join(
         f'      <a href="{h}"{" aria-current=\"page\"" if h == current else (" aria-current=\"true\"" if current == "quellen" and False else "")}>{t}</a>'
         for h, t in NAV)
@@ -86,7 +86,7 @@ def page(fn, title, desc, eyebrow, h1, body, current):
 <footer class="kk-fuss"><div class="kk-in">
   <p><a href="https://kaffeeundkommiss.github.io/">Kaffee und Kommiss</a>: Politik, Geschichte und Sicherheitspolitik mit Quellen. Private, nichtkommerzielle Zusammenstellung. Fehler gefunden? Bitte mit Quelle melden.</p>
 </div></footer>
-</body>
+{scripts}</body>
 </html>
 """
     html = vorschau_behalten(fn, html)
@@ -234,6 +234,48 @@ rows = [
 ]
 trs = "\n".join(f'        <tr class="{c}"><td>{s}</td><td class="num">{n}</td><td>{k}</td><td>{t}</td></tr>' for s, n, k, t, c in rows)
 
+MK2 = f"""    <figure class="mk2" id="mk2" aria-labelledby="mk2-titel">
+      <div class="mk2-head"><h3 id="mk2-titel">Mark II</h3><span>3D-Modell</span></div>
+      <div class="mk2-stage">
+        <canvas role="img" aria-label="Drehbares 3D-Modell des britischen Panzers Mark II"></canvas>
+        <div class="mk2-zoom"><button type="button" data-zoom="in" aria-label="Heranzoomen">+</button><button type="button" data-zoom="out" aria-label="Herauszoomen">−</button></div>
+        <p class="mk2-msg" hidden></p>
+      </div>
+      <div class="mk2-btns" role="group" aria-label="Ansicht">
+        <button type="button" data-view="drei" aria-pressed="false">Schräg</button>
+        <button type="button" data-view="seite" aria-pressed="false">Seite</button>
+        <button type="button" data-view="vorne" aria-pressed="false">Vorne</button>
+        <button type="button" data-view="oben" aria-pressed="false">Oben</button>
+        <button type="button" data-view="heck" aria-pressed="false">Heck</button>
+        <button type="button" data-view="unten" aria-pressed="false">Unten</button>
+      </div>
+      <div class="mk2-btns mk2-zwei" role="group" aria-label="Ausführung">
+        <button type="button" data-version="male" aria-pressed="true">Male</button>
+        <button type="button" data-version="female" aria-pressed="false">Female</button>
+      </div>
+      <div class="mk2-btns mk2-zwei" role="group" aria-label="Bewegung">
+        <button type="button" data-toggle="spin" aria-pressed="true">Drehen</button>
+        <button type="button" data-toggle="tracks" aria-pressed="true">Ketten</button>
+      </div>
+      <figcaption>
+        <p>Gebaut wurden 50 Mark II, je 25 als „Male“ mit Kanonen und als „Female“ nur mit Maschinengewehren. <span data-nur="male">Gezeigt: Male.</span><span data-nur="female" hidden>Gezeigt: Female.</span></p>
+        <details class="mk2-daten"><summary>Technische Daten</summary>
+        <dl>
+          <dt>Hersteller</dt><dd>William Foster &amp; Co. und Metropolitan</dd>
+          <dt>Besatzung</dt><dd>8</dd>
+          <dt>Höhe</dt><dd>2,44 m (8 ft)</dd>
+          <dt>Gewicht</dt><dd>rund 28 t (Male), rund 27 t (Female)</dd>
+          <dt>Motor</dt><dd>Daimler, 6 Zylinder, 105 hp</dd>
+          <dt>Höchstgeschw.</dt><dd>3,7 mph, rund 6 km/h</dd>
+          <dt>Bewaffnung</dt><dd data-nur="male">2 × 6-Pfünder-Kanone, 4 Maschinengewehre</dd><dd data-nur="female" hidden>5 Maschinengewehre</dd>
+        </dl>
+        <div class="meta">{b("ok")}{q(18, 19, 20)}</div>
+        <p class="why">Länge und Breite fehlen, weil sich die Quellen widersprechen: 7,92 m Länge nach Q18, 32,5 ft (rund 9,9 m) nach Q19.</p>
+        </details>
+        <p class="hint">Ziehen dreht das Modell. Vereinfachte Nachbildung: Form, Maße, Farbe und Waffen sind angenähert; nicht alle Maschinengewehre sind dargestellt. Belege auf der <a href="quellen.html#q18">Quellenseite</a>.</p>
+      </figcaption>
+    </figure>"""
+
 tech = f"""  <section class="sect" aria-labelledby="tH">
     <h2 id="tH">Die Fahrzeuge</h2>
     <div class="evintro"><div class="evtext prose">
@@ -243,10 +285,12 @@ tech = f"""  <section class="sect" aria-labelledby="tH">
       <p>Ein Mark II wog rund 28 Tonnen und fuhr höchstens 4 Meilen, rund 6 km/h. Die Besatzungen saßen nach Brown und Brooks in 35 bis 37 Stunden 14 bis 16 Stunden im Fahrzeug, mit Kohlenmonoxid und Hitze.</p>
       {meta("one", 7, text="Gewicht, Tempo: ")}{meta("one", 1, text="Belastung der Besatzung: ")}
     </div>
+    <div class="pzspalte">
+{MK2}
     <figure class="evfoto pzfoto">
       <img src="bilder/panzer-799-1917.jpg" width="625" height="389" alt="Erbeuteter britischer Panzer mit seitlicher Kanone auf einem Acker, davor ein deutscher Offizier mit Stock, rechts weitere Soldaten" decoding="async">
       <figcaption>Vom Grenadier-Regiment 123 erbeuteter britischer Mark II bei Bullecourt, laut handschriftlicher Notiz am 11.04.1917 aufgenommen. Wahrscheinlich Panzer 799. Foto: unbekannt, Bundesarchiv, Bild 146-1984-059-07A / CC-BY-SA 3.0, zugeschnitten. <a href="quellen.html#f1">Bildnachweis</a></figcaption>
-    </figure></div>
+    </figure></div></div>
   </section>
 """
 
@@ -288,7 +332,8 @@ blame = f"""  <section class="sect" aria-labelledby="sH">
 """
 
 page("panzer.html", "Bullecourt 1917: Panzer", "Die zwölf britischen Panzer am 11. April 1917 bei Bullecourt: Fahrzeuge, Einzelschicksale, deutsche Abwehr und der Vorwurf der Feigheit.",
-     "Bullecourt · 11. April 1917", "Die Panzer", STATUS + tech + table + ger + blame, "panzer.html")
+     "Bullecourt · 11. April 1917", "Die Panzer", STATUS + tech + table + ger + blame, "panzer.html",
+     scripts='<script src="modell/vendor/three-0.159.0.min.js" defer></script>\n<script src="modell/mk2.js" defer></script>\n')
 
 # ---------- grabungen.html ----------
 gr = f"""  <section class="sect">
@@ -453,13 +498,16 @@ SRC = [
     (15, "Australian War Memorial, Sammlung: REL47914 (Plattenfragment), REL47917 (Antriebsrad), REL47918 (Leitrad) eines Mark II aus Bullecourt.", "https://www.awm.gov.au/collection/C2086141", "Gleiche Institution wie Q3 und Q4."),
     (16, "Revitalising Redesdale: Ankündigung des Vortrags „Bullecourt – the search for tanks“ von Alex Sotheran (MoD). 28.01.2021.", "https://www.revitalisingredesdale.org.uk/online-archaeology-talk-video-bullecourt-the-search-for-tanks/", "MoD-Archäologe wie Osgood (Q7)."),
     (17, "Georg von Moser: Die Württemberger im Weltkrieg. Stuttgart 1927, S. 76, Karte „27. I.D. 6.4.–5.5.17 bei Bullecourt. Schlacht am 11.4.“ (Scan auf Wikimedia Commons, gemeinfrei).", "https://commons.wikimedia.org/wiki/File:27._(w%C3%BCrtt.)_Inf.Div._11.4.1917.jpg", "Deutsche Darstellung der Verteidiger. Grundlage der Stellungen auf der Karte."),
+    (18, "Tanks Encyclopedia: „Mark II“ (Abschnitt „Development of the Mark II“ mit Datentabelle). Ohne Autor und Datum. Abruf 18.11.2026.", "https://tanks-encyclopedia.com/ww1/gb/tank_MkII.php", "Sekundäre Fachwebsite. Daten zum 3D-Modell."),
+    (19, "J. Rickard: „Mark II Tank“. History of War, 11.07.2023. Abruf 18.11.2026.", "https://www.historyofwar.org/articles/weapons_mk2.html", "Sekundäre Fachwebsite, von Q18 unabhängig. Daten zum 3D-Modell."),
+    (20, "Grace's Guide to British Industrial History: „Mark II Tank“. Ohne Autor und Datum. Abruf 18.11.2026.", "https://gracesguide.co.uk/Mark_II_Tank", "Nur Hersteller, Motor, Besatzung. Ergänzend zu Q18 und Q19."),
 ]
 def dep(d):
     return '<br><span class="dep">' + d + '</span>' if d else ''
 lis = "\n".join(f'      <li id="q{i}"><span class="id">Q{i}</span><span>{t} <a href="{u}">{u.split("//")[1]}</a>{dep(d)}</span></li>' for i, t, u, d in SRC)
 qb = f"""  <section class="sect" aria-labelledby="qH">
     <h2 id="qH">Quellenverzeichnis</h2>
-    <p class="hint">Alle Quellen am 11.11.2026 abgerufen. Darunter jeweils Abhängigkeiten, die beim Belegstatus berücksichtigt sind.</p>
+    <p class="hint">Q1 bis Q17 am 11.11.2026 abgerufen, Q18 bis Q20 am 18.11.2026. Darunter jeweils Abhängigkeiten, die beim Belegstatus berücksichtigt sind.</p>
     <ol class="srcs">
 {lis}
     </ol>

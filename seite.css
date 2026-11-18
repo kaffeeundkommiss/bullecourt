@@ -232,3 +232,32 @@ ol.srcs li:target { background: var(--red-soft); outline: 6px solid var(--red-so
 .ksteps button .d, .ksteps button .t { display: block }
 .prose a + a { margin-left: 5px }
 @media (max-width: 560px) { .karte-svg .ort text { font-size: 20px } .karte-svg .u text, .karte-svg .sek text, .karte-svg .seite { font-size: 16px } }
+
+/* 3D-Modell Mark II über dem Panzerfoto (Muster: Fokker Dr.I im Repo erster-Weltkrieg) */
+.pzspalte { display: grid; gap: 16px; align-content: start; min-width: 0 }
+.mk2 { margin: 0; display: grid; gap: 8px; --mk2-bg: #e4e7e0; --mk2-ground: #d3d8cf; --mk2-ring: #b9c0b6; --mk2-dark: 0 }
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .mk2 { --mk2-bg: #141815; --mk2-ground: #1f2521; --mk2-ring: #343d37; --mk2-dark: 1 } }
+:root[data-theme="dark"] .mk2 { --mk2-bg: #141815; --mk2-ground: #1f2521; --mk2-ring: #343d37; --mk2-dark: 1 }
+.mk2-head { display: flex; align-items: baseline; justify-content: space-between; gap: 8px }
+.mk2-head h3 { font: 700 20px/1 var(--f-display); text-transform: uppercase; letter-spacing: .04em; margin: 0 }
+.mk2-head span { font: 600 12px/1 var(--f-display); letter-spacing: .12em; text-transform: uppercase; color: var(--red) }
+.mk2-stage { position: relative; border: 1px solid var(--rule); border-radius: 2px; overflow: hidden; background: var(--mk2-bg) }
+.mk2 canvas { display: block; width: 100%; height: 240px; touch-action: pan-y; cursor: grab }
+.mk2 canvas.grab { cursor: grabbing }
+.mk2-zoom { position: absolute; right: 6px; top: 6px; display: grid; gap: 4px }
+.mk2-msg { position: absolute; inset: 0; display: grid; place-items: center; padding: 16px; margin: 0; text-align: center; font-size: 14px; color: var(--muted) }
+.mk2-btns { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px }
+.mk2-btns button, .mk2-zoom button { font: 600 13px/1 var(--f-display); letter-spacing: .06em; text-transform: uppercase; color: var(--ink); background: var(--paper);
+  border: 1px solid var(--border); border-radius: 2px; min-height: 36px; padding: 8px 6px; cursor: pointer }
+.mk2-btns button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
+.mk2-btns button:focus-visible, .mk2-zoom button:focus-visible { outline: 2px solid var(--red); outline-offset: 2px }
+.mk2-zoom button { width: 34px; min-height: 34px; padding: 0; font-size: 18px; background: var(--panel) }
+.mk2-zwei { grid-template-columns: repeat(2, minmax(0, 1fr)) }
+.mk2 figcaption { font-size: 14px; line-height: 1.45; display: grid; gap: 6px }
+.mk2 figcaption p { margin: 0 }
+.mk2 dl { margin: 0 0 6px; display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; font-size: 13px }
+.mk2 dt { color: var(--muted) } .mk2 dd { margin: 0 } .mk2 dd[hidden] { display: none }
+.mk2 .hint { font-size: 12px } .mk2 a { color: var(--ink); font-weight: 600 }
+.mk2-daten > summary { cursor: pointer; font: 600 13px/1.2 var(--f-display); letter-spacing: .08em; text-transform: uppercase; padding: 4px 0 }
+.mk2-daten[open] > summary { margin-bottom: 4px }
+@media (max-width: 720px) { .mk2 canvas { height: 260px } .pzspalte { margin-top: 14px } }

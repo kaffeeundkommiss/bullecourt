@@ -23,10 +23,6 @@
 <meta name="theme-color" content="#12110E" media="(prefers-color-scheme: dark)">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Bullecourt 1917">
-<meta name="theme-color" content="#23211C" media="(prefers-color-scheme: light)">
-<meta name="theme-color" content="#12110E" media="(prefers-color-scheme: dark)">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Bullecourt 1917">
 <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
 <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
@@ -78,10 +74,52 @@
       <p>Ein Mark II wog rund 28 Tonnen und fuhr höchstens 4 Meilen, rund 6 km/h. Die Besatzungen saßen nach Brown und Brooks in 35 bis 37 Stunden 14 bis 16 Stunden im Fahrzeug, mit Kohlenmonoxid und Hitze.</p>
       <div class="meta"><span class="b one">eine Quelle</span>Gewicht, Tempo: <a href="quellen.html#q7">Q7</a></div><div class="meta"><span class="b one">eine Quelle</span>Belastung der Besatzung: <a href="quellen.html#q1">Q1</a></div>
     </div>
+    <div class="pzspalte">
+    <figure class="mk2" id="mk2" aria-labelledby="mk2-titel">
+      <div class="mk2-head"><h3 id="mk2-titel">Mark II</h3><span>3D-Modell</span></div>
+      <div class="mk2-stage">
+        <canvas role="img" aria-label="Drehbares 3D-Modell des britischen Panzers Mark II"></canvas>
+        <div class="mk2-zoom"><button type="button" data-zoom="in" aria-label="Heranzoomen">+</button><button type="button" data-zoom="out" aria-label="Herauszoomen">−</button></div>
+        <p class="mk2-msg" hidden></p>
+      </div>
+      <div class="mk2-btns" role="group" aria-label="Ansicht">
+        <button type="button" data-view="drei" aria-pressed="false">Schräg</button>
+        <button type="button" data-view="seite" aria-pressed="false">Seite</button>
+        <button type="button" data-view="vorne" aria-pressed="false">Vorne</button>
+        <button type="button" data-view="oben" aria-pressed="false">Oben</button>
+        <button type="button" data-view="heck" aria-pressed="false">Heck</button>
+        <button type="button" data-view="unten" aria-pressed="false">Unten</button>
+      </div>
+      <div class="mk2-btns mk2-zwei" role="group" aria-label="Ausführung">
+        <button type="button" data-version="male" aria-pressed="true">Male</button>
+        <button type="button" data-version="female" aria-pressed="false">Female</button>
+      </div>
+      <div class="mk2-btns mk2-zwei" role="group" aria-label="Bewegung">
+        <button type="button" data-toggle="spin" aria-pressed="true">Drehen</button>
+        <button type="button" data-toggle="tracks" aria-pressed="true">Ketten</button>
+      </div>
+      <figcaption>
+        <p>Gebaut wurden 50 Mark II, je 25 als „Male“ mit Kanonen und als „Female“ nur mit Maschinengewehren. <span data-nur="male">Gezeigt: Male.</span><span data-nur="female" hidden>Gezeigt: Female.</span></p>
+        <details class="mk2-daten"><summary>Technische Daten</summary>
+        <dl>
+          <dt>Hersteller</dt><dd>William Foster &amp; Co. und Metropolitan</dd>
+          <dt>Besatzung</dt><dd>8</dd>
+          <dt>Höhe</dt><dd>2,44 m (8 ft)</dd>
+          <dt>Gewicht</dt><dd>rund 28 t (Male), rund 27 t (Female)</dd>
+          <dt>Motor</dt><dd>Daimler, 6 Zylinder, 105 hp</dd>
+          <dt>Höchstgeschw.</dt><dd>3,7 mph, rund 6 km/h</dd>
+          <dt>Bewaffnung</dt><dd data-nur="male">2 × 6-Pfünder-Kanone, 4 Maschinengewehre</dd><dd data-nur="female" hidden>5 Maschinengewehre</dd>
+        </dl>
+        <div class="meta"><span class="b ok">belegt</span><a href="quellen.html#q18">Q18</a><a href="quellen.html#q19">Q19</a><a href="quellen.html#q20">Q20</a></div>
+        <p class="why">Länge und Breite fehlen, weil sich die Quellen widersprechen: 7,92 m Länge nach Q18, 32,5 ft (rund 9,9 m) nach Q19.</p>
+        </details>
+        <p class="hint">Ziehen dreht das Modell. Vereinfachte Nachbildung: Form, Maße, Farbe und Waffen sind angenähert; nicht alle Maschinengewehre sind dargestellt. Belege auf der <a href="quellen.html#q18">Quellenseite</a>.</p>
+      </figcaption>
+    </figure>
     <figure class="evfoto pzfoto">
       <img src="bilder/panzer-799-1917.jpg" width="625" height="389" alt="Erbeuteter britischer Panzer mit seitlicher Kanone auf einem Acker, davor ein deutscher Offizier mit Stock, rechts weitere Soldaten" decoding="async">
       <figcaption>Vom Grenadier-Regiment 123 erbeuteter britischer Mark II bei Bullecourt, laut handschriftlicher Notiz am 11.04.1917 aufgenommen. Wahrscheinlich Panzer 799. Foto: unbekannt, Bundesarchiv, Bild 146-1984-059-07A / CC-BY-SA 3.0, zugeschnitten. <a href="quellen.html#f1">Bildnachweis</a></figcaption>
-    </figure></div>
+    </figure></div></div>
   </section>
   <section class="sect" aria-labelledby="pH">
     <h2 id="pH">Die zwölf Panzer am 11. April</h2>
@@ -157,5 +195,7 @@
 <footer class="kk-fuss"><div class="kk-in">
   <p><a href="https://kaffeeundkommiss.github.io/">Kaffee und Kommiss</a>: Politik, Geschichte und Sicherheitspolitik mit Quellen. Private, nichtkommerzielle Zusammenstellung. Fehler gefunden? Bitte mit Quelle melden.</p>
 </div></footer>
+<script src="modell/vendor/three-0.159.0.min.js" defer></script>
+<script src="modell/mk2.js" defer></script>
 </body>
 </html>
