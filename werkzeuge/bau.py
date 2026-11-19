@@ -380,6 +380,9 @@ page("grabungen.html", "Bullecourt 1917: Grabungen", "Breaking Ground Heritage u
      "Bullecourt · 2017 – 2019", "Grabungen nach Panzer 796", gr, "grabungen.html")
 
 # ---------- index.html: Karte (Startseite) ----------
+# 3D-Modell rechts neben „Worum geht es?“, wie auf der Richthofen-Startseite (h2 statt h3 wegen Überschriftenfolge)
+MK2_START = MK2.replace('<h3 id="mk2-titel">Mark II</h3>', '<h2 id="mk2-titel">Mark II</h2>')
+
 SVG = (ROOT / "werkzeuge" / "karte-grund.svg").read_text(encoding="utf-8")
 SCHRITTE = [
     ("1", "März 1917", "Die Stellung",
@@ -404,11 +407,14 @@ def sekt(name):
     li = "".join(f'<li class="{c}"><span class="nr">{n}</span> {tx}</li>' for sk, n, k_, tx, c in rows if sk == name)
     return li
 sektionen = "\n".join(f'      <div class="ktext ksek" data-sektext="{k_}" hidden>\n        <h3><span class="d">Sektion {nm}</span>Vier Panzer</h3>\n        <ul class="pzl">{sekt(nm)}</ul>\n        {meta("part", 1, 2)}\n        <p class="why">Die Pfeile zeigen nur die Richtung der Sektion, nicht die Wege einzelner Panzer. Mehr auf der Seite <a href="panzer.html#pH">Panzer</a>.</p>\n        <p><button type="button" class="zur">Zurück zum Ablauf</button></p>\n      </div>' for k_, nm in (("links", "Links"), ("mitte", "Mitte"), ("rechts", "Rechts")))
-karte = f"""  <details class="intro" id="intro" open>
+karte = f"""  <div class="intro-row">
+  <details class="intro" id="intro" open>
     <summary><h2>Worum geht es?</h2><span class="tgl" aria-hidden="true"><span class="op">Einblenden</span><span class="cl">Ausblenden</span></span></summary>
     <p>Bei Bullecourt in Nordfrankreich griffen im April und Mai 1917 australische und britische Truppen die Hindenburglinie an. Im ersten Angriff am 11. April sollten Panzer die fehlende Artillerie ersetzen. Der Angriff scheiterte, und die Australier gaben lange den Panzerbesatzungen die Schuld. Neuere Forschung und Grabungen von Veteranen zeichnen ein anderes Bild. Jede Aussage trägt ihren Belegstatus.</p>
     <p>Die Karte zeigt das Gefechtsfeld des ersten Angriffs am 11. April 1917: deutsche Gräben, die Angriffsrichtung der Panzer und der australischen Infanterie und die deutschen Gegenstöße. Wähle einen Zeitpunkt; im dritten und vierten Schritt öffnen die Schilder Links, Mitte und Rechts die Panzer der jeweiligen Sektion.</p>
   </details>
+{MK2_START}
+  </div>
   <section class="sect" aria-labelledby="kH">
     <h2 id="kH">Ablauf auf der Karte</h2>
     <div class="kplay" role="group" aria-label="Ablauf steuern"><button type="button" data-k="prev">Vorheriger Schritt</button><button type="button" data-k="play" aria-pressed="false">▶ Abspielen</button><button type="button" data-k="next">Nächster Schritt</button><button type="button" data-k="anf">Anfang</button></div>
@@ -489,7 +495,8 @@ karte = f"""  <details class="intro" id="intro" open>
 </script>
 """
 page("index.html", "Bullecourt 1917", "Die Schlachten bei Bullecourt im April und Mai 1917, Schwerpunkt Panzer: interaktive Karte des Gefechtsfelds, Ablauf, Zahlen, Deutungen, mit Belegstatus je Aussage.",
-     "Westfront · April und Mai 1917", "Die Schlachten bei Bullecourt", karte + STATUS, "index.html")
+     "Westfront · April und Mai 1917", "Die Schlachten bei Bullecourt", karte + STATUS, "index.html",
+     scripts='<script src="modell/vendor/three-0.159.0.min.js" defer></script>\n<script src="modell/mk2.js" defer></script>\n')
 
 # Alte Adresse karte.html leitet auf die Startseite um.
 (ROOT / "karte.html").write_text("""<!doctype html>
