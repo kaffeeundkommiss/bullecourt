@@ -74,9 +74,9 @@ def page(fn, title, desc, eyebrow, h1, body, current, scripts=""):
   <nav class="kk-bereiche" aria-label="Bereiche"><a href="https://kaffeeundkommiss.github.io/geschichte/" aria-current="true">Geschichte</a><a href="https://kaffeeundkommiss.github.io/sicherheitspolitik/"><span class="kk-lang">Sicherheitspolitik</span><span class="kk-kurz">Sicherheit</span></a><a href="https://kaffeeundkommiss.github.io/politik/">Politik</a></nav>
 </div></div>
 {pfad(fn)}<div class="kk-kopf"><div class="kk-in">
-  <a class="kk-schild" href="index.html"><img src="icons/favicon.svg" alt="" width="44" height="44"><span><span class="kk-name" style="display:block">Bullecourt 1917</span><span class="kk-unter" style="display:block">Panzer und Infanterie an der Hindenburglinie</span></span></a>
+  <a class="kk-schild" href="index.html"><img src="icons/favicon.svg" alt="" width="44" height="44"><span><span class="kk-name" style="display:block">Erster Weltkrieg</span><span class="kk-unter" style="display:block">Panzer und Infanterie bei Bullecourt 1917</span></span></a>
 </div></div>
-<div class="wrap">
+<main class="wrap" id="inhalt">
   <header>
     <div class="brand"><div class="brand-text">
       <div class="eyebrow">{eyebrow}</div>
@@ -88,7 +88,7 @@ def page(fn, title, desc, eyebrow, h1, body, current, scripts=""):
   </header>
 {body}
   <p class="qnav"><a class="qbtn" href="quellen.html">Quellen</a></p>
-</div>
+</main>
 <footer class="kk-fuss"><div class="kk-in">
   <p><a href="https://kaffeeundkommiss.github.io/">Kaffee und Kommiss</a>: Politik, Geschichte und Sicherheitspolitik mit Quellen. Private, nichtkommerzielle Zusammenstellung. Fehler gefunden? Bitte mit Quelle melden.</p>
 </div></footer>
@@ -404,12 +404,14 @@ def sekt(name):
     li = "".join(f'<li class="{c}"><span class="nr">{n}</span> {tx}</li>' for sk, n, k_, tx, c in rows if sk == name)
     return li
 sektionen = "\n".join(f'      <div class="ktext ksek" data-sektext="{k_}" hidden>\n        <h3><span class="d">Sektion {nm}</span>Vier Panzer</h3>\n        <ul class="pzl">{sekt(nm)}</ul>\n        {meta("part", 1, 2)}\n        <p class="why">Die Pfeile zeigen nur die Richtung der Sektion, nicht die Wege einzelner Panzer. Mehr auf der Seite <a href="panzer.html#pH">Panzer</a>.</p>\n        <p><button type="button" class="zur">Zurück zum Ablauf</button></p>\n      </div>' for k_, nm in (("links", "Links"), ("mitte", "Mitte"), ("rechts", "Rechts")))
-karte = f"""  <section class="sect">
-    <p class="lede">Bei Bullecourt in Nordfrankreich griffen im April und Mai 1917 australische und britische Truppen die Hindenburglinie an. Im ersten Angriff am 11. April sollten Panzer die fehlende Artillerie ersetzen. Der Angriff scheiterte, und die Australier gaben lange den Panzerbesatzungen die Schuld. Neuere Forschung und Grabungen von Veteranen zeichnen ein anderes Bild. Jede Aussage trägt ihren Belegstatus.</p>
-    <p class="lede">Die Karte zeigt das Gefechtsfeld des ersten Angriffs am 11. April 1917: deutsche Gräben, die Angriffsrichtung der Panzer und der australischen Infanterie und die deutschen Gegenstöße. Wähle einen Zeitpunkt; im dritten und vierten Schritt öffnen die Schilder Links, Mitte und Rechts die Panzer der jeweiligen Sektion.</p>
-  </section>
+karte = f"""  <details class="intro" id="intro" open>
+    <summary><h2>Worum geht es?</h2><span class="tgl" aria-hidden="true"><span class="op">Einblenden</span><span class="cl">Ausblenden</span></span></summary>
+    <p>Bei Bullecourt in Nordfrankreich griffen im April und Mai 1917 australische und britische Truppen die Hindenburglinie an. Im ersten Angriff am 11. April sollten Panzer die fehlende Artillerie ersetzen. Der Angriff scheiterte, und die Australier gaben lange den Panzerbesatzungen die Schuld. Neuere Forschung und Grabungen von Veteranen zeichnen ein anderes Bild. Jede Aussage trägt ihren Belegstatus.</p>
+    <p>Die Karte zeigt das Gefechtsfeld des ersten Angriffs am 11. April 1917: deutsche Gräben, die Angriffsrichtung der Panzer und der australischen Infanterie und die deutschen Gegenstöße. Wähle einen Zeitpunkt; im dritten und vierten Schritt öffnen die Schilder Links, Mitte und Rechts die Panzer der jeweiligen Sektion.</p>
+  </details>
   <section class="sect" aria-labelledby="kH">
     <h2 id="kH">Ablauf auf der Karte</h2>
+    <div class="kplay" role="group" aria-label="Ablauf steuern"><button type="button" data-k="prev">Vorheriger Schritt</button><button type="button" data-k="play" aria-pressed="false">▶ Abspielen</button><button type="button" data-k="next">Nächster Schritt</button><button type="button" data-k="anf">Anfang</button></div>
     <div class="ksteps" role="group" aria-label="Zeitpunkt wählen">
 {knopf}
     </div>
@@ -458,7 +460,25 @@ karte = f"""  <section class="sect">
     if (wrap.dataset.sek === k) {{ setStep(cur); return; }}
     wrap.dataset.sek = k; show('[data-sektext="' + k + '"]');
   }}
-  steps.forEach(function (b) {{ b.addEventListener('click', function () {{ setStep(b.dataset.step); }}); }});
+  steps.forEach(function (b) {{ b.addEventListener('click', function () {{ stop(); setStep(b.dataset.step); }}); }});
+  var nums = Array.prototype.map.call(steps, function (b) {{ return b.dataset.step; }});
+  var timer = null, playBtn = document.querySelector('.kplay [data-k="play"]');
+  function geh(d) {{ var i = nums.indexOf(cur) + d; if (i >= 0 && i < nums.length) {{ setStep(nums[i]); return true; }} return false; }}
+  function stop() {{ if (timer) {{ clearInterval(timer); timer = null; }} playBtn.textContent = '▶ Abspielen'; playBtn.setAttribute('aria-pressed', 'false'); }}
+  document.querySelectorAll('.kplay button').forEach(function (b) {{
+    b.addEventListener('click', function () {{
+      var k = b.dataset.k;
+      if (k === 'play') {{
+        if (timer) {{ stop(); return; }}
+        if (cur === nums[nums.length - 1]) setStep(nums[0]);
+        playBtn.textContent = '❚❚ Anhalten'; playBtn.setAttribute('aria-pressed', 'true');
+        timer = setInterval(function () {{ if (!geh(1)) stop(); }}, 4500);
+        return;
+      }}
+      stop();
+      if (k === 'prev') geh(-1); else if (k === 'next') geh(1); else setStep(nums[0]);
+    }});
+  }});
   document.querySelectorAll('.karte-svg .sek').forEach(function (g) {{
     g.addEventListener('click', function () {{ setSek(g.dataset.sek); }});
     g.addEventListener('keydown', function (e) {{ if (e.key === 'Enter' || e.key === ' ') {{ e.preventDefault(); setSek(g.dataset.sek); }} }});
