@@ -74,7 +74,7 @@ def page(fn, title, desc, eyebrow, h1, body, current, scripts=""):
   <nav class="kk-bereiche" aria-label="Bereiche"><a href="https://kaffeeundkommiss.github.io/geschichte/" aria-current="true">Geschichte</a><a href="https://kaffeeundkommiss.github.io/sicherheitspolitik/"><span class="kk-lang">Sicherheitspolitik</span><span class="kk-kurz">Sicherheit</span></a><a href="https://kaffeeundkommiss.github.io/politik/">Politik</a></nav>
 </div></div>
 {pfad(fn)}<div class="kk-kopf"><div class="kk-in">
-  <a class="kk-schild" href="index.html"><img src="icons/favicon.svg" alt="" width="44" height="44"><span><span class="kk-name" style="display:block">Erster Weltkrieg</span><span class="kk-unter" style="display:block">Panzer und Infanterie bei Bullecourt 1917</span></span></a>
+  <a class="kk-schild" href="https://kaffeeundkommiss.github.io/geschichte/erster-weltkrieg/"><img src="icons/favicon.svg" alt="" width="44" height="44"><span><span class="kk-name" style="display:block">Erster Weltkrieg</span><span class="kk-unter" style="display:block">Panzer und Infanterie bei Bullecourt 1917</span></span></a>
 </div></div>
 <main class="wrap" id="inhalt">
   <header>
