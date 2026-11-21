@@ -240,47 +240,8 @@ rows = [
 ]
 trs = "\n".join(f'        <tr class="{c}"><td>{s}</td><td class="num">{n}</td><td>{k}</td><td>{t}</td></tr>' for s, n, k, t, c in rows)
 
-MK2 = f"""    <figure class="mk2" id="mk2" aria-labelledby="mk2-titel">
-      <div class="mk2-head"><h3 id="mk2-titel">Mark II</h3><span>3D-Modell</span></div>
-      <div class="mk2-stage">
-        <canvas role="img" aria-label="Drehbares 3D-Modell des britischen Panzers Mark II"></canvas>
-        <div class="mk2-zoom"><button type="button" data-zoom="in" aria-label="Heranzoomen">+</button><button type="button" data-zoom="out" aria-label="Herauszoomen">−</button></div>
-        <p class="mk2-msg" hidden></p>
-      </div>
-      <div class="mk2-btns" role="group" aria-label="Ansicht">
-        <button type="button" data-view="drei" aria-pressed="false">Schräg</button>
-        <button type="button" data-view="seite" aria-pressed="false">Seite</button>
-        <button type="button" data-view="vorne" aria-pressed="false">Vorne</button>
-        <button type="button" data-view="oben" aria-pressed="false">Oben</button>
-        <button type="button" data-view="heck" aria-pressed="false">Heck</button>
-        <button type="button" data-view="unten" aria-pressed="false">Unten</button>
-      </div>
-      <div class="mk2-btns mk2-zwei" role="group" aria-label="Ausführung">
-        <button type="button" data-version="male" aria-pressed="true">Male</button>
-        <button type="button" data-version="female" aria-pressed="false">Female</button>
-      </div>
-      <div class="mk2-btns mk2-zwei" role="group" aria-label="Bewegung">
-        <button type="button" data-toggle="spin" aria-pressed="true">Drehen</button>
-        <button type="button" data-toggle="tracks" aria-pressed="true">Ketten</button>
-      </div>
-      <figcaption>
-        <p>Gebaut wurden 50 Mark II, je 25 als „Male“ mit Kanonen und als „Female“ nur mit Maschinengewehren. <span data-nur="male">Gezeigt: Male.</span><span data-nur="female" hidden>Gezeigt: Female.</span></p>
-        <details class="mk2-daten"><summary>Technische Daten</summary>
-        <dl>
-          <dt>Hersteller</dt><dd>William Foster &amp; Co. und Metropolitan</dd>
-          <dt>Besatzung</dt><dd>8</dd>
-          <dt>Höhe</dt><dd>2,44 m (8 ft)</dd>
-          <dt>Gewicht</dt><dd>rund 28 t (Male), rund 27 t (Female)</dd>
-          <dt>Motor</dt><dd>Daimler, 6 Zylinder, 105 hp</dd>
-          <dt>Höchstgeschw.</dt><dd>3,7 mph, rund 6 km/h</dd>
-          <dt>Bewaffnung</dt><dd data-nur="male">2 × 6-Pfünder-Kanone, 4 Maschinengewehre</dd><dd data-nur="female" hidden>5 Maschinengewehre</dd>
-        </dl>
-        <div class="meta">{b("ok")}{q(18, 19, 20)}</div>
-        <p class="why">Länge und Breite fehlen, weil sich die Quellen widersprechen: 7,92 m Länge nach Q18, 32,5 ft (rund 9,9 m) nach Q19.</p>
-        </details>
-        <p class="hint">Ziehen dreht das Modell. Vereinfachte Nachbildung: Form, Maße, Farbe und Waffen sind angenähert; nicht alle Maschinengewehre sind dargestellt. Belege auf der <a href="quellen.html#q18">Quellenseite</a>.</p>
-      </figcaption>
-    </figure>"""
+# 3D-Modell Mark II: seit 21.11.2026 nur auf der Seite „Technik im Modell“ (Repo kaffeeundkommiss.github.io)
+TECHNIK = "https://kaffeeundkommiss.github.io/geschichte/erster-weltkrieg/technik/"
 
 tech = f"""  <section class="sect" aria-labelledby="tH">
     <h2 id="tH">Die Fahrzeuge</h2>
@@ -290,9 +251,10 @@ tech = f"""  <section class="sect" aria-labelledby="tH">
       {meta("wid", 1, 6, 7, 15, text="Typ: Mark I und II (Q1, Q6) oder nur Mark II (Q7, Q15): ")}
       <p>Ein Mark II wog rund 28 Tonnen und fuhr höchstens 4 Meilen, rund 6 km/h. Die Besatzungen saßen nach Brown und Brooks in 35 bis 37 Stunden 14 bis 16 Stunden im Fahrzeug, mit Kohlenmonoxid und Hitze.</p>
       {meta("one", 7, text="Gewicht, Tempo: ")}{meta("one", 1, text="Belastung der Besatzung: ")}
+      <p>Gebaut wurden 50 Mark II, je 25 als „Male“ mit Kanonen und als „Female“ nur mit Maschinengewehren. Ein drehbares 3D-Modell beider Ausführungen steht auf der Seite <a href="{TECHNIK}">Technik im Modell</a>.</p>
+      {meta("ok", 18, 19, 20, text="Stückzahl und Ausführungen: ")}
     </div>
     <div class="pzspalte">
-{MK2}
     <figure class="evfoto pzfoto">
       <img src="bilder/panzer-799-1917.jpg" width="625" height="389" alt="Erbeuteter britischer Panzer mit seitlicher Kanone auf einem Acker, davor ein deutscher Offizier mit Stock, rechts weitere Soldaten" decoding="async">
       <figcaption>Vom Grenadier-Regiment 123 erbeuteter britischer Mark II bei Bullecourt, laut handschriftlicher Notiz am 11.04.1917 aufgenommen. Wahrscheinlich Panzer 799. Foto: unbekannt, Bundesarchiv, Bild 146-1984-059-07A / CC-BY-SA 3.0, zugeschnitten. <a href="quellen.html#f1">Bildnachweis</a></figcaption>
@@ -338,8 +300,7 @@ blame = f"""  <section class="sect" aria-labelledby="sH">
 """
 
 page("panzer.html", "Bullecourt 1917: Panzer", "Die zwölf britischen Panzer am 11. April 1917 bei Bullecourt: Fahrzeuge, Einzelschicksale, deutsche Abwehr und der Vorwurf der Feigheit.",
-     "Bullecourt · 11. April 1917", "Die Panzer", STATUS + tech + table + ger + blame, "panzer.html",
-     scripts='<script src="modell/vendor/three-0.159.0.min.js" defer></script>\n<script src="modell/mk2.js" defer></script>\n')
+     "Bullecourt · 11. April 1917", "Die Panzer", STATUS + tech + table + ger + blame, "panzer.html")
 
 # ---------- grabungen.html ----------
 gr = f"""  <section class="sect">
@@ -380,9 +341,6 @@ page("grabungen.html", "Bullecourt 1917: Grabungen", "Breaking Ground Heritage u
      "Bullecourt · 2017 – 2019", "Grabungen nach Panzer 796", gr, "grabungen.html")
 
 # ---------- index.html: Karte (Startseite) ----------
-# 3D-Modell rechts neben „Worum geht es?“, wie auf der Richthofen-Startseite (h2 statt h3 wegen Überschriftenfolge)
-MK2_START = MK2.replace('<h3 id="mk2-titel">Mark II</h3>', '<h2 id="mk2-titel">Mark II</h2>')
-
 SVG = (ROOT / "werkzeuge" / "karte-grund.svg").read_text(encoding="utf-8")
 SCHRITTE = [
     ("1", "März 1917", "Die Stellung",
@@ -407,14 +365,12 @@ def sekt(name):
     li = "".join(f'<li class="{c}"><span class="nr">{n}</span> {tx}</li>' for sk, n, k_, tx, c in rows if sk == name)
     return li
 sektionen = "\n".join(f'      <div class="ktext ksek" data-sektext="{k_}" hidden>\n        <h3><span class="d">Sektion {nm}</span>Vier Panzer</h3>\n        <ul class="pzl">{sekt(nm)}</ul>\n        {meta("part", 1, 2)}\n        <p class="why">Die Pfeile zeigen nur die Richtung der Sektion, nicht die Wege einzelner Panzer. Mehr auf der Seite <a href="panzer.html#pH">Panzer</a>.</p>\n        <p><button type="button" class="zur">Zurück zum Ablauf</button></p>\n      </div>' for k_, nm in (("links", "Links"), ("mitte", "Mitte"), ("rechts", "Rechts")))
-karte = f"""  <div class="intro-row">
-  <details class="intro" id="intro" open>
+karte = f"""  <details class="intro" id="intro" open>
     <summary><h2>Worum geht es?</h2><span class="tgl" aria-hidden="true"><span class="op">Einblenden</span><span class="cl">Ausblenden</span></span></summary>
     <p>Bei Bullecourt in Nordfrankreich griffen im April und Mai 1917 australische und britische Truppen die Hindenburglinie an. Im ersten Angriff am 11. April sollten Panzer die fehlende Artillerie ersetzen. Der Angriff scheiterte, und die Australier gaben lange den Panzerbesatzungen die Schuld. Neuere Forschung und Grabungen von Veteranen zeichnen ein anderes Bild. Jede Aussage trägt ihren Belegstatus.</p>
     <p>Die Karte zeigt das Gefechtsfeld des ersten Angriffs am 11. April 1917: deutsche Gräben, die Angriffsrichtung der Panzer und der australischen Infanterie und die deutschen Gegenstöße. Wähle einen Zeitpunkt; im dritten und vierten Schritt öffnen die Schilder Links, Mitte und Rechts die Panzer der jeweiligen Sektion.</p>
+    <p class="how"><b>3D-Modell:</b> Der Mark II steht drehbar auf der Seite <a href="{TECHNIK}">Technik im Modell</a>.</p>
   </details>
-{MK2_START}
-  </div>
   <section class="sect" aria-labelledby="kH">
     <h2 id="kH">Ablauf auf der Karte</h2>
     <div class="kplay" role="group" aria-label="Ablauf steuern"><button type="button" data-k="prev">Vorheriger Schritt</button><button type="button" data-k="play" aria-pressed="false">▶ Abspielen</button><button type="button" data-k="next">Nächster Schritt</button><button type="button" data-k="anf">Anfang</button></div>
@@ -495,8 +451,7 @@ karte = f"""  <div class="intro-row">
 </script>
 """
 page("index.html", "Bullecourt 1917", "Die Schlachten bei Bullecourt im April und Mai 1917, Schwerpunkt Panzer: interaktive Karte des Gefechtsfelds, Ablauf, Zahlen, Deutungen, mit Belegstatus je Aussage.",
-     "Westfront · April und Mai 1917", "Die Schlachten bei Bullecourt", karte + STATUS, "index.html",
-     scripts='<script src="modell/vendor/three-0.159.0.min.js" defer></script>\n<script src="modell/mk2.js" defer></script>\n')
+     "Westfront · April und Mai 1917", "Die Schlachten bei Bullecourt", karte + STATUS, "index.html")
 
 # Alte Adresse karte.html leitet auf die Startseite um.
 (ROOT / "karte.html").write_text("""<!doctype html>
