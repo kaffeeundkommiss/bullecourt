@@ -9,7 +9,7 @@ Die Schlachten bei Bullecourt (11.04. und 03.–17.05.1917) mit Schwerpunkt auf 
 - `grabungen.html` – Grabungen von Breaking Ground Heritage und Operation Nightingale 2017–2019
 - `quellen.html` – Quellenverzeichnis (Q1–Q16) mit Abhängigkeiten
 - `werkzeuge/bau.py` – erzeugt alle Seiten; Inhalte dort ändern, dann `python3 werkzeuge/bau.py`
-- `modell/mk2.js` – drehbares 3D-Modell des Mark II auf `panzer.html` (three.js 0.159.0 lokal in `modell/vendor/`, MIT-Lizenz)
+- 3D-Modell des Mark II: seit 21.11.2026 nur auf der Seite „Technik im Modell“ (Repo kaffeeundkommiss.github.io, `geschichte/erster-weltkrieg/technik/`); Belege Q18–Q20 weiter auf `quellen.html`
 - `basis.css`, `kk-tasse.svg` – Grundsystem Kaffee und Kommiss (Kopie von der Startseite), `bereich.css` Bereich Geschichte
 
 Stand der Recherche: 11.11.2026.
