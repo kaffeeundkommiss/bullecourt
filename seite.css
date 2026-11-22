@@ -255,3 +255,20 @@ ol.srcs li:target { background: var(--red-soft); outline: 6px solid var(--red-so
 .kplay button { font: 600 13px/1 var(--f-display); letter-spacing: .08em; text-transform: uppercase; padding: 8px 10px 7px; min-height: 32px; border: 1px solid var(--border); border-radius: 2px; background: var(--paper); color: var(--ink); cursor: pointer }
 .kplay button[aria-pressed="true"] { background: var(--ink); color: var(--paper); border-color: var(--ink) }
 
+
+/* Handy: gekürzter Kasten „Worum geht es?“ (Skript in index.html), Rest per „Weiterlesen“ */
+.intro.kurz > .mehr ~ * { display: none }
+.intro .mehr { justify-self: start; display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 4px 0; border: 0; background: none; color: var(--ink); font: inherit; font-weight: 600; text-transform: none; letter-spacing: normal; text-decoration: underline; text-underline-offset: 3px; cursor: pointer }
+.intro .mehr::after { content: "▾"; text-decoration: none; font-size: .85em }
+.intro .mehr:focus-visible { outline: 2px solid var(--red); outline-offset: 2px }
+.intro > p[tabindex="-1"]:focus { outline: none }
+/* Handy: Karte zuerst, darunter Abspielen, Schritttext und Zeitpunkte (wie Richthofen und Jünger) */
+@media (max-width: 640px) {
+  .sect:has(> .kwrap) { display: flex; flex-direction: column; gap: 10px }
+  .sect:has(> .kwrap) > h2 { margin-bottom: 0 }
+  .sect > .kwrap { display: contents }
+  .kwrap > .kfig { order: 1 }
+  .sect > .kplay { order: 2; margin: 0 }
+  .kwrap > .kpanel { order: 3 }
+  .sect > .ksteps { order: 4; margin-top: 4px }
+}

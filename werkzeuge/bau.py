@@ -450,6 +450,20 @@ karte = f"""  <details class="intro" id="intro" open>
   document.querySelectorAll('.kpanel .zur').forEach(function (b) {{ b.addEventListener('click', function () {{ setStep(cur); }}); }});
   setStep('1');
 }})();
+// Handy: Kasten „Worum geht es?“ auf den ersten Absatz kürzen, Rest per „Weiterlesen“ (wie Richthofen und Jünger)
+(function () {{
+  var it = document.getElementById('intro');
+  if (!it || !window.matchMedia || !matchMedia('(max-width: 640px)').matches) return;
+  var ps = [].filter.call(it.children, function (e) {{ return e.tagName === 'P'; }});
+  if (ps.length < 2) return;
+  var b = document.createElement('button');
+  b.type = 'button'; b.className = 'mehr'; b.textContent = 'Weiterlesen';
+  ps[0].after(b); it.classList.add('kurz');
+  b.addEventListener('click', function () {{
+    it.classList.remove('kurz'); b.remove();
+    ps[1].setAttribute('tabindex', '-1'); ps[1].focus({{ preventScroll: true }});
+  }});
+}})();
 </script>
 """
 page("index.html", "Bullecourt 1917", "Die Schlachten bei Bullecourt im April und Mai 1917, Schwerpunkt Panzer: interaktive Karte des Gefechtsfelds, Ablauf, Zahlen, Deutungen, mit Belegstatus je Aussage.",
