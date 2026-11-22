@@ -209,7 +209,7 @@ deut = f"""  <section class="sect" aria-labelledby="dH">
 body = f"""  <section class="sect">
     <p class="lede">Beide Angriffe auf Bullecourt im Einzelnen: die Zahlen, der Ablauf im April und im Mai 1917 und die Frage, warum der erste Angriff scheiterte.</p>
   </section>
-""" + STATUS + stats + f"""  <section class="sect" aria-labelledby="t1H">
+""" + stats + f"""  <section class="sect" aria-labelledby="t1H">
     <h2 id="t1H">Erster Angriff: April 1917</h2>
     <ol class="tl">
 {tl1}    </ol>
@@ -219,7 +219,7 @@ body = f"""  <section class="sect">
     <ol class="tl">
 {tl2}    </ol>
   </section>
-""" + deut
+""" + deut + STATUS
 page("schlachten.html", "Bullecourt 1917: Schlachten", "Die beiden Angriffe auf Bullecourt im April und Mai 1917: Zahlen, Ablauf, Deutungen, mit Belegstatus je Aussage.",
      "Bullecourt · April und Mai 1917", "Zwei Angriffe", body, "schlachten.html")
 
@@ -300,13 +300,13 @@ blame = f"""  <section class="sect" aria-labelledby="sH">
 """
 
 page("panzer.html", "Bullecourt 1917: Panzer", "Die zwölf britischen Panzer am 11. April 1917 bei Bullecourt: Fahrzeuge, Einzelschicksale, deutsche Abwehr und der Vorwurf der Feigheit.",
-     "Bullecourt · 11. April 1917", "Die Panzer", STATUS + tech + table + ger + blame, "panzer.html")
+     "Bullecourt · 11. April 1917", "Die Panzer", tech + table + ger + blame + STATUS, "panzer.html")
 
 # ---------- grabungen.html ----------
 gr = f"""  <section class="sect">
     <p class="lede">Hundert Jahre nach der Schlacht gruben britische Veteranen auf dem Schlachtfeld nach den Panzern. Organisiert wurden die Grabungen von Breaking Ground Heritage zusammen mit dem Programm Operation Nightingale des britischen Verteidigungsministeriums.</p>
   </section>
-""" + STATUS + f"""  <section class="sect" aria-labelledby="bH">
+""" + f"""  <section class="sect" aria-labelledby="bH">
     <h2 id="bH">Breaking Ground Heritage</h2>
     <div class="prose">
       <p>Breaking Ground Heritage ist eine von Veteranen geführte gemeinnützige Organisation in Großbritannien. Sie vermittelt verwundete, verletzte und kranke Soldaten und Veteranen in archäologische Projekte; im Mittelpunkt steht ihr Wohlbefinden.</p>
@@ -338,7 +338,7 @@ gr = f"""  <section class="sect">
   </section>
 """
 page("grabungen.html", "Bullecourt 1917: Grabungen", "Breaking Ground Heritage und Operation Nightingale: Veteranen graben 2017 bis 2019 bei Bullecourt nach Panzer 796.",
-     "Bullecourt · 2017 – 2019", "Grabungen nach Panzer 796", gr, "grabungen.html")
+     "Bullecourt · 2017 – 2019", "Grabungen nach Panzer 796", gr + STATUS, "grabungen.html")
 
 # ---------- index.html: Karte (Startseite) ----------
 SVG = (ROOT / "werkzeuge" / "karte-grund.svg").read_text(encoding="utf-8")
@@ -369,7 +369,6 @@ karte = f"""  <details class="intro" id="intro" open>
     <summary><h2>Worum geht es?</h2><span class="tgl" aria-hidden="true"><span class="op">Einblenden</span><span class="cl">Ausblenden</span></span></summary>
     <p>Bei Bullecourt in Nordfrankreich griffen im April und Mai 1917 australische und britische Truppen die Hindenburglinie an. Im ersten Angriff am 11. April sollten Panzer die fehlende Artillerie ersetzen. Der Angriff scheiterte, und die Australier gaben lange den Panzerbesatzungen die Schuld. Neuere Forschung und Grabungen von Veteranen zeichnen ein anderes Bild. Jede Aussage trägt ihren Belegstatus.</p>
     <p>Die Karte zeigt das Gefechtsfeld des ersten Angriffs am 11. April 1917: deutsche Gräben, die Angriffsrichtung der Panzer und der australischen Infanterie und die deutschen Gegenstöße. Wähle einen Zeitpunkt; im dritten und vierten Schritt öffnen die Schilder Links, Mitte und Rechts die Panzer der jeweiligen Sektion.</p>
-    <p class="how"><b>3D-Modell:</b> Der Mark II steht drehbar auf der Seite <a href="{TECHNIK}">Technik im Modell</a>.</p>
   </details>
   <section class="sect" aria-labelledby="kH">
     <h2 id="kH">Ablauf auf der Karte</h2>
@@ -392,6 +391,9 @@ karte = f"""  <details class="intro" id="intro" open>
 {sektionen}
       </div>
     </div>
+  </section>
+  <section class="hinweise" aria-label="Hinweise zur Karte">
+    <p class="how"><b>3D-Modell:</b> Der Mark II steht drehbar auf der Seite <a href="{TECHNIK}">Technik im Modell</a>.</p>
   </section>
   <section class="sect" aria-labelledby="gkH">
     <h2 id="gkH">Wie die Karte entstand</h2>

@@ -248,6 +248,8 @@ ol.srcs li:target { background: var(--red-soft); outline: 6px solid var(--red-so
 .intro:not([open]) { padding-bottom: 14px }
 .intro p { margin: 0 }
 .intro .how { font-size: 15px; color: var(--muted) } .intro .how b { color: var(--ink); font-weight: 600 } .intro .how a { color: var(--ink); font-weight: 600 }
+.hinweise { border: 1px solid var(--rule); border-radius: 3px; padding: 14px 18px 16px; display: grid; gap: 8px; max-width: 860px; margin: 0 0 22px }
+.hinweise p { margin: 0; font-size: 15px; color: var(--muted) } .hinweise b { color: var(--ink); font-weight: 600 } .hinweise a { color: var(--ink); font-weight: 600 }
 /* Ablauf abspielen wie auf den Karten von Richthofen und Jünger */
 .kplay { display: flex; flex-wrap: wrap; gap: 6px; margin: 0 0 8px }
 .kplay button { font: 600 13px/1 var(--f-display); letter-spacing: .08em; text-transform: uppercase; padding: 8px 10px 7px; min-height: 32px; border: 1px solid var(--border); border-radius: 2px; background: var(--paper); color: var(--ink); cursor: pointer }
