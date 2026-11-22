@@ -90,7 +90,7 @@ def page(fn, title, desc, eyebrow, h1, body, current, scripts=""):
   <p class="qnav"><a class="qbtn" href="quellen.html">Quellen</a></p>
 </main>
 <footer class="kk-fuss"><div class="kk-in">
-  <p><a href="https://kaffeeundkommiss.github.io/">Kaffee und Kommiss</a>: Politik, Geschichte und Sicherheitspolitik mit Quellen. Private, nichtkommerzielle Zusammenstellung. Fehler gefunden? Bitte mit Quelle melden.</p>
+  <p><a href="https://kaffeeundkommiss.github.io/">Kaffee und Kommiss</a>: Geschichte, Sicherheitspolitik und Politik mit Quellen. Private, nichtkommerzielle Zusammenstellung. Fehler gefunden? Bitte mit Quelle melden.</p>
 </div></footer>
 {scripts}</body>
 </html>
