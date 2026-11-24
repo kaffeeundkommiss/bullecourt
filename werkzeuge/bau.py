@@ -61,9 +61,7 @@ def page(fn, title, desc, eyebrow, h1, body, current, scripts=""):
 <link rel="apple-touch-icon" sizes="180x180" href="icons/apple-touch-icon.png">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="stylesheet" href="site.css">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://kaffeeundkommiss.github.io/schriften/schriften.css">
 <link rel="stylesheet" href="basis.css">
 <link rel="stylesheet" href="seite.css">
 <link rel="stylesheet" href="bereich.css">
