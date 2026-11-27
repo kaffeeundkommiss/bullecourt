@@ -6,7 +6,7 @@ import re
 BASE = "https://kaffeeundkommiss.github.io/bullecourt/"
 ROOT = pathlib.Path(__file__).resolve().parent.parent
 
-PFAD_A = '<nav class="kk-pfad" aria-label="Pfad"><div class="kk-in"><a href="https://kaffeeundkommiss.github.io/geschichte/">Geschichte</a> › <a href="https://kaffeeundkommiss.github.io/geschichte/erster-weltkrieg/">Erster Weltkrieg 1914–1918</a> › '
+PFAD_A = '<nav class="kk-pfad" aria-label="Pfad"><div class="kk-in"><a href="https://kaffeeundkommiss.github.io/geschichte/">Geschichte</a> › <a href="https://kaffeeundkommiss.github.io/geschichte/erster-weltkrieg/">Erster Weltkrieg 1914–1918</a> › <a href="https://kaffeeundkommiss.github.io/geschichte/erster-weltkrieg/landkrieg/">Landkrieg</a> › '
 def pfad(fn):
     """Pfad zur Themenübersicht unter der Leiste."""
     letzt = '<span aria-current="page">Bullecourt 1917</span>' if fn == "index.html" else '<a href="./">Bullecourt 1917</a>'
@@ -72,7 +72,7 @@ def page(fn, title, desc, eyebrow, h1, body, current, scripts=""):
   <nav class="kk-bereiche" aria-label="Bereiche"><a href="https://kaffeeundkommiss.github.io/geschichte/" aria-current="true">Geschichte</a><a href="https://kaffeeundkommiss.github.io/sicherheitspolitik/"><span class="kk-lang">Sicherheitspolitik</span><span class="kk-kurz">Sicherheit</span></a><a href="https://kaffeeundkommiss.github.io/politik/">Politik</a></nav>
 </div></div>
 {pfad(fn)}<div class="kk-kopf"><div class="kk-in">
-  <a class="kk-schild" href="https://kaffeeundkommiss.github.io/geschichte/erster-weltkrieg/"><img src="icons/favicon.svg" alt="" width="44" height="44"><span><span class="kk-name" style="display:block">Erster Weltkrieg</span><span class="kk-unter" style="display:block">Panzer und Infanterie bei Bullecourt 1917</span></span></a>
+  <a class="kk-schild" href="https://kaffeeundkommiss.github.io/geschichte/erster-weltkrieg/landkrieg/"><img src="icons/favicon.svg" alt="" width="44" height="44"><span><span class="kk-name" style="display:block">Landkrieg 1914–1918</span><span class="kk-unter" style="display:block">Panzer und Infanterie bei Bullecourt 1917</span></span></a>
 </div></div>
 <main class="wrap" id="inhalt">
   <header>
